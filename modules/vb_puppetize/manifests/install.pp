@@ -25,7 +25,7 @@ class vb_puppetize::install {
     }
     
     file { "/root/bin/puppet.exec":
-	     source => "puppet:///modules/puppetize/puppet.exec",
+	     source => "puppet:///modules/vb_puppetize/puppet.exec",
 	      owner => 'root',
 	      group => 'root',
 	       mode => '0700',
@@ -33,7 +33,7 @@ class vb_puppetize::install {
     }
     
     file { "/root/bin/puppet.simulate":
-	    source => "puppet:///modules/puppetize/puppet.simulate",
+	    source => "puppet:///modules/vb_puppetize/puppet.simulate",
 	     owner => 'root',
 	     group => 'root',
 	      mode => '0700',
@@ -43,12 +43,10 @@ class vb_puppetize::install {
   
     # For puppet server
     
-    if $::fqdn == $::vb_puppetize::params::mypuppetserver_fqdn {
-    
 	package { "puppetmaster" :
 	    ensure => present,
 	}
 	    
-    }
+
 
 }
