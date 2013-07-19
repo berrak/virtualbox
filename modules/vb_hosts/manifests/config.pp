@@ -3,7 +3,7 @@
 ## 
 class vb_hosts::config ( $puppetserver_hostname = '' ) {
 		
-	
+	$vaddress = $::ipaddress
 	$vhostname = $::hostname
 	$vdomain = $::domain
 	
