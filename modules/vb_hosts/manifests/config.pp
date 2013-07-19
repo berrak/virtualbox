@@ -4,7 +4,8 @@
 class vb_hosts::config ( $puppetserver_hostname = '' ) {
 		
 	
-	$vhostname = $::hostname 
+	$vhostname = $::hostname
+	$vdomain = $::domain
 	
 	if $vhostname == $puppetserver_hostname {
     

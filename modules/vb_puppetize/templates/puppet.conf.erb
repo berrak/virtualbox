@@ -6,11 +6,11 @@ logdir=/var/log/puppet
 vardir=/var/lib/puppet
 rundir=/var/run/puppet
 factpath=$vardir/lib/facter
-ssldir=/var/lib/puppet/ssl
+ssldir=/etc/puppet/ssl
 templatedir=$confdir/templates
 
-server = <%= vhostname %>.vbox.tld
+server = <%= vhostname %>.<%= vdomain %>
 
 [agent]
-certname = node<%= vhostname %>
+certname = node-<%= vhostname %>.<%= vdomain %>
 

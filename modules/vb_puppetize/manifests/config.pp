@@ -8,6 +8,7 @@ class vb_puppetize::config {
     # Thus no need to test if this is a master or node, just copy files to vhost.
     
     $vhostname = $::hostname
+    $vdomain = $::domain
     
     file { "/etc/puppet/puppet.conf" :
         ensure => present,

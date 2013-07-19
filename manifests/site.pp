@@ -1,9 +1,9 @@
 #
 # site.pp
 #
-node 'safesurf.vbox.tld' {
+node 'web.vbox.tld' {
     
-    class { vb_hosts::config : puppetserver_hostname => 'safesurf' }
+    class { vb_hosts::config : puppetserver_hostname => 'web' }
     
     include vb_puppetize
     
@@ -11,9 +11,9 @@ node 'safesurf.vbox.tld' {
     
 }
 
-node 'perlmojo.vbox.tld' {
+node 'mojo.vbox.tld' {
         
-    class { vb_hosts::config : puppetserver_hostname => 'perlmojo' }
+    class { vb_hosts::config : puppetserver_hostname => 'mojo' }
     
     include vb_puppetize
     
