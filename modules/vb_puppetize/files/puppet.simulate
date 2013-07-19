@@ -1,0 +1,13 @@
+#!/bin/sh
+#
+# Runs in simulation mode, one time and then exit (no deamon)
+# Primary purpose is to test new manifests. Set the '$server' to
+# the fqdn of the puppet server to use.
+# Options:
+#	--no-daemonize prevent puppet agent to become a daemon
+#       --verbose adds extra log mesages to daemon.log
+#	--onetime cause agent to run only once and the exits
+#	--noop cause puppet agent to simulate the action it would take
+#
+/usr/bin/puppet agent --no-daemonize --verbose --onetime --noop
+

@@ -1,0 +1,14 @@
+#
+# /etc/default/puppet
+#
+##############################################################
+# Do not edit. Managed by Puppet. Changes will be wiped out. #
+##############################################################
+
+# Defaults for puppet - sourced by /etc/init.d/puppet
+
+# Start puppet on boot?
+START=no
+
+# Startup options
+DAEMON_OPTS=""

@@ -1,0 +1,28 @@
+#!/bin/sh
+#
+# Runs the puppet agent one time and then exit (no deamon).
+# Primary purpose is to run this via cron. Set the '$server' in
+# in /etc/puppet.conf to the fqdn of the puppet server to use.
+# Options:
+#	--no-daemonize prevent puppet agent to become a daemon
+#       --verbose adds extra log mesages to daemon.log
+#	--onetime cause agent to run only once and the exits
+#
+# Run aptitude update before to ensure packages are up-to-date
+# unless we add 'something' as $1, then we skip this.
+
+if [ ! -z "$1" ] ; then
+    echo "$0: Updating Debian package information - Please wait."
+    /usr/bin/aptitude update
+else
+    echo "$0: Skipping update of Debian packages. Place any character after the command to run aptitude update."
+fi
+
+# Run puppet agent
+
+STARTTIME=`date +%H:%M:%S`
+echo "$0: Starting puppet run at time: $STARTTIME"
+/usr/bin/puppet agent --no-daemonize --verbose --onetime
+ENDTIME=`date +%H:%M:%S`
+echo "$0: Finish puppet run at time: $ENDTIME"
+
