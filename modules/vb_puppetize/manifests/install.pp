@@ -2,13 +2,14 @@
 ## Manage Puppet
 ##
 class vb_puppetize::install {
-  
-    include vb_puppetize::params
-  
+
+
+    # Note: in a virtual setup, puppet master and agent always runs on same vhost
+    # Thus no need to test if this is a master or node, just copy files to vhost.
+	
+	
     # Debian defaults to install puppet-common which
     # depends on facter - but just to show both.
-  
-    # Install puppet agent regardless if this is the puppet server or agent
   
     package { [ "puppet", "facter" ] :
         ensure => present,
