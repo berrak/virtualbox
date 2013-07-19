@@ -1,0 +1,26 @@
+# /root/.bashrc_root: Local root's .bashrc customization
+# This file is sourced from .bashrc 
+
+# You may uncomment the following lines if you want `ls' to be colorized:
+export LS_OPTIONS='--color=auto'
+eval "`dircolors`"
+alias l='ls $LS_OPTIONS'
+alias ll='ls $LS_OPTIONS -l'
+alias la='ls $LS_OPTIONS -la'
+
+# Some more alias to avoid making mistakes:
+alias rm='rm -i'
+alias cp='cp -i'
+alias mv='mv -i'
+
+alias cls='clear'
+
+PATH=$PATH:/root/bin:/root/jobs
+
+function backup() {
+	newname=$1.`date +%Y%m%d.%H%M.UTC.bak`;
+	mv $1 $newname;
+	echo "Backed up $1 to $newname."; 
+	cp -p $newname $1;
+}
+
