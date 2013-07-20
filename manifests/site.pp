@@ -25,7 +25,6 @@ node 'mojo.vbox.tld' {
     
     include vb_root_bashrc
     
-    vb_admin_bndl::install { 'officeapps' : }
 
     
 }
