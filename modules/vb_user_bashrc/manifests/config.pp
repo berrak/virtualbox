@@ -49,7 +49,7 @@ define vb_user_bashrc::config {
 		
 		# Now append one line to original .bashrc to source user customizations.
 		
-		puppet_utils::append_if_no_such_line { "enable_${name}_customization" :
+		vb_puppet_utils::append_if_no_such_line { "enable_${name}_customization" :
 				
 		    file => "/home/${name}/.bashrc",
 		    line => "[ -f ~/bashrc.d/${name} ] && source ~/bashrc.d/${name}" 
