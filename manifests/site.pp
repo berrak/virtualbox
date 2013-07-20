@@ -25,6 +25,6 @@ node 'mojo.vbox.tld' {
     
     include vb_root_bashrc
     
+    include vb_install_debs
 
-    
 }
