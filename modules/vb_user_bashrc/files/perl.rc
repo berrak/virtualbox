@@ -1,0 +1,48 @@
+##############################################################
+# MANAGED BY PUPPET. DO NOT EDIT. CHANGES WILL BE WIPED OUT. #
+##############################################################
+#
+# ~/bashrc.d/perl.rc
+#
+# Sourced by user bash resource file
+#
+
+# For Perl lib and current project
+
+export PERL5LIB=/home/bekr/perlwork/Filter-Heredoc/lib
+
+#export PERL5LIB=/home/bekr/MYCPANPROJ/App-AptInstall/lib
+#export PERL5LIB=/home/bekr/HP_DL380Install/diskusage/lib
+#export PERL5LIB=/home/bekr/HP_DL380Install/Debinix-Utils/lib
+#export PERL5LIB=/home/bekr/perlwork/Module-Starterkit/lib
+
+
+# For Perl scripts and man pages (not working)
+# export PATH=/home/bekr/PERL/bin:$PATH
+# export MANPATH=:/home/bekr/PERL/man
+
+# For perl author testing (Enable 2nd and Comment out first export stanza)
+# export RELEASE_TESTING=
+export RELEASE_TESTING=1 
+
+# Always run with taint check on for public web code
+# export PERL5OPT=-T
+
+alias prove-all='prove --lib $PWD/t/*.t $PWD/t/*/*.t $PWD/xt/*t $PWD/xt/*/*.t'
+alias prove-t='prove --lib $PWD/t/*.t $PWD/t/*/*.t'
+alias prove-xt='prove --lib $PWD/xt/*.t $PWD/xt/*/*.t'
+
+
+# Find  Perl module and version (from Stackoverflow)
+
+# useage: cpan.module XML::Simple
+# --> No module found
+
+# useage: cpan.module DBI
+#--> Version 1.607
+
+alias cpan.module="perl -e\"eval qq{use \\\$ARGV[0];\\\\\\\$v=\\\\\\\$\\\${ARGV[0]}::VERSION;};\ print\\\$@?qq{No module found\\n}:\\\$v?qq{Version \\\$v\\n}:qq{Found.\\n};\"\$1"
+
+# print out perls library path
+alias perl.inc='perl -e "print join(\"\n\", @INC);"'
+
