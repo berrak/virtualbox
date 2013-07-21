@@ -3,7 +3,7 @@
 ### VirtualBox and Debian Wheezy (a.k.a. Debian 7)
 
 VirtualBox provides a great environment for admin tests or running
-a clean desktop environments isolated from the host installation.
+clean desktop environments isolated from the host installation.
 
 This setup describes how to setup Puppet [1] and Git on each VM. 
 
@@ -11,7 +11,8 @@ In this project each virtual machine is managed by Puppet and Git. Each
 VM is totally isolated using the default setup with NAT networking.
 
 Today, probably the greatest IT security risk is actually ourselves. What did
-you downloaded? Did you executed it? Do you know the source? [2]
+you downloaded? Did you executed it? Do you know the source? Which unsafe sites
+did you visited? [2]
 
 In the site manifest, a few examples of desktop and server uses are given.
 
@@ -20,7 +21,7 @@ In the site manifest, a few examples of desktop and server uses are given.
     * a php development environment (php) exploring php5/SQL etc.
     * a hardened server setup (hard)
     
-Here, each VM is a Debian 7 iso image [5]. 
+Here, each VM use Debian 7 iso image [5]. 
 
 Above examples will evolve over time and are far from complete. Feel free
 to suggest contributions. To install the latest VirtualBox, see reference [6].
@@ -51,7 +52,7 @@ Oracle: virtualbox-4.2.16
 If not already done so, install a VM with the VirtualBox wizard (use *New* button)
 and use NAT (which is the default networking setup).
 
-Once the Debian installer starts, and to use the site manifest as is, use 'web',
+Once the Debian installer starts, and with the site manifest as is, use 'web',
 'mojo', 'php' and 'hard' as the *host name*, and here I use 'vbox.tld' as the VM
 *domain name*. Note that each VM domain *must* use the same domain name to
 deploy one universal site manifest for all VM's.
@@ -66,28 +67,31 @@ the Puppet master hostname. E.g. for 'mojo' change the ip4 settings as:
     127.0.0.1 localhost
     10.0.2.15 mojo.vbox.tld  mojo  node-mojo 
 
-VirtualBox always give each new VM the ip4 10.0.2.15 which simplifies the setup.
+VirtualBox always give each new VM the ip4 address as 10.0.2.15 which
+simplifies the setup.
 
 Here *mojo* is the host name for Puppet master, and *node-mojo* is the host
-name for Puppet agent. Test Puppet master FQDN with:
+name for Puppet agent. To continue, test Puppet master FQDN with:
     
     # hostname -f
     mojo.vbox.tld
 
+Without this working correct as above, Puppet will not install properly.
+
 In case the source for the VM where downloaded as a CD/DVD iso image, comment
-out the reference to the cd-source in */etc/apt/sources.list* file and run:
+out the reference to the CD-source in */etc/apt/sources.list* file and run:
 
     # aptitude update
 
 
-### Install Git, Puppet master and clone the 'virtualbox.git' repository
+### Install Git, Puppet master and clone this 'virtualbox.git' repository
 
 Install Git and Puppet master with:
 
     # aptitude install -PVR git
     # aptitude install -PVR puppetmaster
     
-Note that there should not be any error messages when the puppetmaster is
+Note that no error messages are allowed when the puppetmaster is
 restarted at the end of the installation process.
     
 Before cloning this project, backup the puppet directory with:
@@ -163,7 +167,7 @@ Time to setup the *node-mojo*. Install Puppet agent with:
 
     # aptitude install puppet
     
-To create a node certificate and run 'node-mojo' manifests:
+Create a node certificate and run 'node-mojo' manifests:
 
     # puppet agent --server=mojo.vbox.tld --onetime --no-daemonize --verbose --waitforcert 60
     
@@ -173,7 +177,7 @@ In a second root terminal, view and sign the request from *node-mojo* with:
     # puppet cert --sign node-mojo.vbox.tld
     # tail /var/log/daemon.log
     
-Now watch the first *node-mojo* run in the first window. In case of errors just rerun with:
+Watch the initial *node-mojo* run in the first window. In case of errors just rerun with:
 
     # puppet agent --server=mojo.vbox.tld --onetime --no-daemonize --verbose
     
