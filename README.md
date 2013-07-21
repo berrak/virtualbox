@@ -91,7 +91,7 @@ Before cloning this project, backup the puppet directory with:
 
     # cd /etc
     # mkdir puppet.original
-    # cp -r puppet/* puppet.original
+    # cp -r puppet/* puppet.original/
     # ls -l puppet.original
     
 Once the backup is done, remove the original puppet directory and all files:
