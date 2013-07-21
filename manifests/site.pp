@@ -1,7 +1,7 @@
 #
 # site.pp (Virtualbox VM's)
 #
-## Purpose is to build a hardened server host
+## Purpose is to build a hardened server host - note no desktop
 node 'node-hard.vbox.tld' {
     
     include vb_hosts
@@ -30,6 +30,9 @@ node 'node-web.vbox.tld' {
     # Replace 'bekr' with your existing username
     vb_user_bashrc::config { 'bekr' : }
     
+    # Fix LXDE configuration file (bug)
+    vb_lxde_fixconfig
+    
 }
 ## Purpose is to work with Perl web frameworks e.g. Mojolicious
 node 'node-mojo.vbox.tld' {
@@ -47,6 +50,9 @@ node 'node-mojo.vbox.tld' {
     
     # Replace 'bekr' with your existing username
     vb_user_bashrc::config { 'bekr' : }
+    
+    # Fix LXDE configuration file (bug)
+    vb_lxde_fixconfig
 
 }
 ## Purpose is to work with php development
@@ -65,5 +71,8 @@ node 'node-php.vbox.tld' {
     
     # Replace 'bekr' with your existing username
     vb_user_bashrc::config { 'bekr' : }
+    
+    # Fix LXDE configuration file (bug)
+    vb_lxde_fixconfig
     
 }

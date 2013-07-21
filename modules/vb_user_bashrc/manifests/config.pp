@@ -83,22 +83,7 @@ define vb_user_bashrc::config {
 			  mode => '0644',
 		   require => File["/home/${name}/bashrc.d/${name}"],
 	   	}
-		
-		# fix bug in lxterminal - useer can't make configuration
-		# persistent (installed configuration set as root ownership)
-		
-        file { "/home/${name}/.config/lxterminal":
-		    ensure => "directory",
-		     owner => "${name}",
-		     group => "${name}",
-			  mode => '0755',
-	    }
-			
-		exec { "/home/${name}/.config/lxterminal/lxterminal.conf":
-			    command => "/bin/chown ${name}:${name} /home/${name}/.config/lxterminal/lxterminal.conf",
-			  subscribe => File["/home/${name}/.config/lxterminal"],
-	        refreshonly => true,
-		}
+
 	
 	} else {
 		
