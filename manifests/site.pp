@@ -21,7 +21,7 @@ node 'node-web.vbox.tld' inherits basenode {
     vb_user_bashrc::config { 'bekr' : }
     
     # Fix LXDE configuration file (bug)
-    include vb_lxde_fixconfig
+    class { vb_lxde_fixconfig : homeuser => 'bekr' }
     
 }
 
@@ -36,7 +36,7 @@ node 'node-mojo.vbox.tld' inherits basenode {
     vb_user_bashrc::config { 'bekr' : }
     
     # Fix LXDE configuration file (bug)
-    include vb_lxde_fixconfig
+    class { vb_lxde_fixconfig : homeuser => 'bekr' }
 
 }
 ## Purpose is to work with php development
@@ -49,7 +49,7 @@ node 'node-php.vbox.tld' inherits basenode {
     vb_user_bashrc::config { 'bekr' : }
     
     # Fix LXDE configuration file (bug)
-    include vb_lxde_fixconfig
+    class { vb_lxde_fixconfig : homeuser => 'bekr' }
     
     include puppet_apache
     
