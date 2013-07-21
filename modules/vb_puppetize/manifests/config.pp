@@ -36,7 +36,14 @@ class vb_puppetize::config {
         require => Class["vb_puppetize::install"],
         notify => Class["vb_puppetize::service"],
     }
-          
+    
+    # create the directory matching the path in fileserver.conf
+	file { "/etc/puppet/files":
+		ensure => "directory",
+		owner => 'root',
+		group => 'root',
+	}
+    
     # sets e.g. if puppet master runs as daemon or not 
     
     file { "/etc/default/puppetmaster" :
