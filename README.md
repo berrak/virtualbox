@@ -52,8 +52,9 @@ If not already done so, install a VM with the VirtualBox wizard (use *New* butto
 and use NAT (which is the default networking setup).
 
 Once the Debian installer starts, and to use the site manifest as is, use 'web',
-'mojo', 'php' and *hard* as the *host name*, and use 'vbox.tld' as your VM
-*domain name*. Note that each VM domain *must* use the same domain name.
+'mojo', 'php' and 'hard' as the *host name*, and here I use 'vbox.tld' as the VM
+*domain name*. Note that each VM domain *must* use the same domain name to
+deploy one universal site manifest for all VM's.
 
 
 ### Initial Puppet preparations to run master and agent on same host 'mojo'
