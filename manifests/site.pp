@@ -5,7 +5,7 @@
 ## Purpose is to build a isolated hardened host for a safer web experience
 node 'node-web.vbox.tld' {
     
-    class { vb_hosts::config : puppetserver_hostname => 'web' }
+    include vb_hosts
     
     include vb_puppetize
     
@@ -17,7 +17,7 @@ node 'node-web.vbox.tld' {
 ## Purpose is to work with Perl web frameworks e.g. Mojolicious
 node 'node-mojo.vbox.tld' {
         
-    class { vb_hosts::config : puppetserver_hostname => 'mojo' }
+    include vb_hosts
     
     include vb_puppetize
     
@@ -33,7 +33,7 @@ node 'node-mojo.vbox.tld' {
 ## Purpose is to work with php development
 node 'node-php.vbox.tld' {
     
-    class { vb_hosts::config : puppetserver_hostname => 'web' }
+    include vb_hosts
     
     include vb_puppetize
     
