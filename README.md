@@ -88,8 +88,8 @@ out the reference to the CD-source in */etc/apt/sources.list* file and run:
 
 Install Git and Puppet master with:
 
-    # aptitude install -PVR git
-    # aptitude install -PVR puppetmaster
+    # aptitude install git
+    # aptitude install puppetmaster
     
 Note that no error messages are allowed when the puppetmaster is
 restarted at the end of the installation process.
