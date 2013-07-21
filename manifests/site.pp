@@ -1,32 +1,22 @@
 #
 # site.pp (Virtualbox VM's)
 #
-## Purpose is to build a hardened server host - note no desktop
-node 'node-hard.vbox.tld' {
-    
-    include vb_hosts
-    
-    include vb_puppetize
-    
-    include vb_root_home
-    
-    include vb_root_bashrc
+
+import 'base.pp'
+
+## Purpose is to build a hardened server host - note no GUI desktop/LXDE
+
+node 'node-hard.vbox.tld' inherits basenode {
     
     # Replace 'bekr' with your existing username
     vb_user_bashrc::config { 'bekr' : }
     
 }
+
 ## Purpose is to build a isolated hardened host for a safer web experience
-node 'node-web.vbox.tld' {
-    
-    include vb_hosts
-    
-    include vb_puppetize
-    
-    include vb_root_home
-    
-    include vb_root_bashrc
-    
+
+node 'node-web.vbox.tld' inherits basenode {
+      
     # Replace 'bekr' with your existing username
     vb_user_bashrc::config { 'bekr' : }
     
@@ -34,18 +24,12 @@ node 'node-web.vbox.tld' {
     include vb_lxde_fixconfig
     
 }
+
 ## Purpose is to work with Perl web frameworks e.g. Mojolicious
-node 'node-mojo.vbox.tld' {
-        
-    include vb_hosts
+
+node 'node-mojo.vbox.tld' inherits basenode {
     
-    include vb_puppetize
-    
-    include vb_root_home
-    
-    include vb_root_bashrc
-    
-    # Packages which not requires any special configuration i.e. debs as maintained by Debian
+    # Packages without any special configurations
     include vb_install_debs
     
     # Replace 'bekr' with your existing username
@@ -56,17 +40,9 @@ node 'node-mojo.vbox.tld' {
 
 }
 ## Purpose is to work with php development
-node 'node-php.vbox.tld' {
+node 'node-php.vbox.tld' inherits basenode {
     
-    include vb_hosts
-    
-    include vb_puppetize
-    
-    include vb_root_home
-    
-    include vb_root_bashrc
-    
-    # Packages which not requires any special configuration i.e. debs as maintained by Debian
+    # Packages without any special configurations
     include vb_install_debs
     
     # Replace 'bekr' with your existing username
