@@ -30,7 +30,7 @@ node 'node-web.vbox.tld' inherits basenode {
 node 'node-mojo.vbox.tld' inherits basenode {
     
     # Packages without any special configurations
-    include vb_install_debs
+    class { vb_install_debs : debs => [ "curl", "evince", "php5"] }
     
     # Replace 'bekr' with your existing username
     vb_user_bashrc::config { 'bekr' : }
@@ -43,7 +43,7 @@ node 'node-mojo.vbox.tld' inherits basenode {
 node 'node-php.vbox.tld' inherits basenode {
     
     # Packages without any special configurations
-    include vb_install_debs
+    class { vb_install_debs : debs => [ "curl", "evince", "php5"] }
     
     # Replace 'bekr' with your existing username
     vb_user_bashrc::config { 'bekr' : }
