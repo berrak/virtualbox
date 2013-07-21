@@ -1,7 +1,7 @@
 #
 # Class to enable normal user to update the LXDE configuration file
 #
-vb_lxde_fixconfig {
+class vb_lxde_fixconfig {
 
     # fix bug in 'lxterminal' - useer can't make LXDE configuration persistent
     # (installed configuration is by default set as root ownership!)

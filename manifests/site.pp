@@ -31,7 +31,7 @@ node 'node-web.vbox.tld' {
     vb_user_bashrc::config { 'bekr' : }
     
     # Fix LXDE configuration file (bug)
-    vb_lxde_fixconfig
+    include vb_lxde_fixconfig
     
 }
 ## Purpose is to work with Perl web frameworks e.g. Mojolicious
@@ -52,7 +52,7 @@ node 'node-mojo.vbox.tld' {
     vb_user_bashrc::config { 'bekr' : }
     
     # Fix LXDE configuration file (bug)
-    vb_lxde_fixconfig
+    include vb_lxde_fixconfig
 
 }
 ## Purpose is to work with php development
@@ -73,6 +73,6 @@ node 'node-php.vbox.tld' {
     vb_user_bashrc::config { 'bekr' : }
     
     # Fix LXDE configuration file (bug)
-    vb_lxde_fixconfig
+    include vb_lxde_fixconfig
     
 }
