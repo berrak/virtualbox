@@ -105,12 +105,11 @@ Once the backup is done, remove the original puppet directory and all files:
 
     # rm -fr puppet
     # git clone https://github.com/berrak/virtualbox.git puppet
-    # cd puppet
 
 
-### Directory structure and Puppet modules after cloning 'virtualbox.git'
+### Directory structure after cloning 'virtualbox.git'
 
-The layout structure for the downloaded :
+The directory layout after cloning this repository looks like:
 
     /etc/puppet/manifests
                         site.pp
@@ -124,6 +123,7 @@ The layout structure for the downloaded :
 
 Copy back the configuration files  with:
 
+    # cd puppet
     # cp ../puppet.original/*.conf .
     
 Edit *puppet.conf* to look like:
@@ -143,8 +143,8 @@ Edit *puppet.conf* to look like:
     [agent]
     certname=node-mojo.vbox.tld
 
-Save the file. Note: the new path for the *ssldir*. The server is same for
-both the master and agent thus can be below *main*.
+Save the file. Note: the new path for the *ssldir*. The server name is
+identical for master and agent, thus can be below the *main* heading.
 
 
 ### Recreate the ssl directory and sign Puppet master
@@ -156,7 +156,7 @@ for Puppet master in */etc/puppet/ssl* sub directories.
     # /etc/init.d/puppetmaster start 
 
 This created the */etc/puppet/ssl* sub directory. What just
-happened is logged and can be viewed with:
+happened was logged and can be viewed with:
 
     # tail /var/log/daemon.log
     
@@ -171,7 +171,7 @@ Create a node certificate and run 'node-mojo' manifests:
 
     # puppet agent --server=mojo.vbox.tld --onetime --no-daemonize --verbose --waitforcert 60
     
-In a second root terminal, view and sign the request from *node-mojo* with:
+In the second root terminal, view and sign the request from *node-mojo* with:
 
     # puppet cert --list
     # puppet cert --sign node-mojo.vbox.tld
