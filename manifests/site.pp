@@ -51,4 +51,7 @@ node 'node-php.vbox.tld' inherits basenode {
     # Fix LXDE configuration file (bug)
     include vb_lxde_fixconfig
     
+    include puppet_apache
+    
+    
 }
