@@ -142,7 +142,7 @@ both the master and agent thus can be below *main*.
 
 ### Recreate the ssl directory and sign Puppet master
 
-Stop the running Puppet master and start it again will recreate the certificates
+Stopping the running Puppet master and starting it again recreates the certificates
 for Puppet master in */etc/puppet/ssl* sub directories.
 
     # /etc/init.d/puppetmaster stop
@@ -194,10 +194,15 @@ Script above steps to automate the VM setup for Git and Puppet.
 ### References
 
 [1] Puppet Labs: https://puppetlabs.com/
+
 [2] 6 Ways to Defend against Drive-by Downloads: http://www.cio.com/article/699970/6_Ways_to_Defend_Against_Drive_by_Downloads
+
 [3] Linux Magazine, Issue 152, July 2013: http://www.linux-magazine.com/Issues/2013/152/Stopping-Drive-By-Attacks
+
 [4] Perl Mojolicious Web Framework: http://mojolicio.us/
+
 [5] Debian wheezy Download: http://www.debian.org/distrib/
+
 [6] VirtualBox Download: https://www.virtualbox.org/wiki/Linux_Downloads
 
 
