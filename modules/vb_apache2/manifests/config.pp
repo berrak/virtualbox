@@ -66,12 +66,12 @@ class vb_apache2::config ($homeuser ='') {
     
     
 	# Create the directory for the default and localhost vhost site
-	# Note: sets group rwx on directory for given 'homeuser'
+	# Note: sets user to 'homeuser', and group to 'www-data' (Apache user)
     
 	file { "/var/www/www.default.tld":
 		ensure => "directory",
-		owner => 'root',
-		group => $homeuser,
+		owner => $homeuser,
+		group => "www-data",
 		mode => '0775',
 	}
     
