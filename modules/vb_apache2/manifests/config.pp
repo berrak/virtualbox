@@ -71,7 +71,7 @@ class vb_apache2::config ($homeuser ='') {
 	file { "/var/www/www.default.tld":
 		ensure => "directory",
 		owner => 'root',
-		group => ${homeuser},
+		group => $homeuser,
 		mode => '0775',
 	}
     
