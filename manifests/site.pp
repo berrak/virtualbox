@@ -51,8 +51,8 @@ node 'node-php.vbox.tld' inherits basenode {
     # Fix LXDE configuration file (bug)
     class { vb_lxde_fixconfig : homeuser => 'bekr' }
     
-    # Use name-based virtual hosts and apache2 prefork
-    include vb_apache2
+    # Use name-based virtual hosts, apache2 prefork and sets rwx to homeuser www-default directory
+    class { vb_apache2::config : homeuser => 'bekr' }
      
     
 }

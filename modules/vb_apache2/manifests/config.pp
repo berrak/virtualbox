@@ -1,7 +1,14 @@
 #
 # Manage apache2
 #
-class vb_apache2::config {
+class vb_apache2::config ($homeuser ='') {
+
+    include vb_apache2::install, vb_apache2::service
+
+    if $homeuser == '' {
+	    fail("FAIL: Missing parameter user ($homeuser)!")
+	}
+
 
     # Global security settings
     
@@ -59,12 +66,13 @@ class vb_apache2::config {
     
     
 	# Create the directory for the default and localhost vhost site
+	# Note: sets group rwx on directory for given 'homeuser'
     
 	file { "/var/www/www.default.tld":
 		ensure => "directory",
 		owner => 'root',
-		group => 'root',
-		mode => '0755',
+		group => ${homeuser},
+		mode => '0775',
 	}
     
     # Default and localhost index file (maintenance and picture) and the favicon
@@ -76,13 +84,12 @@ class vb_apache2::config {
         require => File["/var/www/www.default.tld"],
     }
     
-    # temporary removed due to un-known/un-trusted source of jpg file (400x305 px)
-    #file { '/var/www/www.default.tld/toolbox.jpg':
-    #     source => "puppet:///modules/vb_apache2/toolbox.jpg",    
-    #      owner => 'root',
-    #      group => 'root',
-    #    require => File["/var/www/www.default.tld"],
-    #}
+    file { '/var/www/www.default.tld/toolbox.jpg':
+         source => "puppet:///modules/vb_apache2/tux-toolbox.jpg",    
+          owner => 'root',
+          group => 'root',
+        require => File["/var/www/www.default.tld"],
+    }
     
     file { '/var/www/www.default.tld/favicon.ico':
          source => "puppet:///modules/vb_apache2/tux-favicon.ico",    
