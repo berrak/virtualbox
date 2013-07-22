@@ -1,7 +1,7 @@
 #
 # Manage apache2
 #
-class puppet_apache::service {
+class vb_apache2::service {
 
     service { "apache2":
         enable => true,

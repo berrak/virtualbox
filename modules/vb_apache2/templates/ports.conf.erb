@@ -5,14 +5,13 @@
 # have to change the VirtualHost statement in
 # /etc/apache2/sites-enabled/000-default
 
-NameVirtualHost <%= wwwipaddress %>
-NameVirtualHost <%= localhostaddress %>
+NameVirtualHost *:80
 Listen 80
 
 <IfModule mod_ssl.c>
     # If you add NameVirtualHost *:443 here, you will also have to change
     # the VirtualHost statement in /etc/apache2/sites-available/default-ssl
-    # to <VirtualHost <%= wwwipaddress %>>
+    # to <VirtualHost *:443>
     Listen 443
 </IfModule>
 

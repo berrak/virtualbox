@@ -51,7 +51,8 @@ node 'node-php.vbox.tld' inherits basenode {
     # Fix LXDE configuration file (bug)
     class { vb_lxde_fixconfig : homeuser => 'bekr' }
     
-    include puppet_apache
-    
+    # Use name-based virtual hosts and apache2 prefork
+    include vb_apache2
+     
     
 }

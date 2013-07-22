@@ -1,7 +1,7 @@
 #
 # Manage apache2
 #
-class puppet_apache::install {
+class vb_apache2::install {
 
     package { "apache2-mpm-prefork" : ensure => installed }
 
