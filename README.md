@@ -57,6 +57,9 @@ Once the Debian installer starts, and with the site manifest as is, use 'web',
 *domain name*. Note that each VM domain *must* use the same domain name to
 deploy one universal site manifest for all VM's.
 
+Install *openssh-server* on each guest VM to provide secure access from host,
+thus there is no requirements to install Oracles' guest additions.
+
 
 ### Initial Puppet preparations to run master and agent on same host 'mojo'
 
@@ -186,6 +189,36 @@ If run was successful, an alternative to previous command is:
     # puppet.exec
     
 You may need to close and open the terminal again to source the new root paths.
+
+
+### SSH access to guests with NAT port forwarding
+
+Ensure that the VM is off and type commands as a regular <user> account.
+Use 'VBoxmanage' to configure port forwarding. Show your VM's with:
+
+    $ VBoxManage list vms
+    
+Here we examplify with guest *mojo*. Add a NAT rule for SSH with:
+
+    $ VBoxManage modify mojo --natpf1 "guestssh,tcp,127.0.0.1,2201,,22"
+    
+There is not requirement to specify the guest ip, but we need to use a port
+greater than 1024 on the host. Since we have many VM's, assign *mojo* an
+unique port number. This can also be done with Oracles GUI (Settings->
+Network->Advanced->Port Forwarding).
+
+Now start the VM *mojo* and connect with:
+
+    $ ssh -p 2201 <user>@127.0.0.1
+    
+Use scp to send files to the guest *mojo*:
+
+    $ scp -P 2201 <file.name> <user>@127.0.0.1:/home/<user>/<file.name>
+    
+Use scp to get files from guest *mojo*, but consider the security risk and save
+files from guests on a separate partition with 'nodev,noexec,nosuid' options:
+    
+    $ scp -P 2201 <user>@127.0.0.1:/home/<user>/<file.name>  <file.name>
 
     
 ### Finally update all VM's to be managed by Puppet
