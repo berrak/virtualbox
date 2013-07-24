@@ -194,13 +194,13 @@ You may need to close and open the terminal again to source the new root paths.
 ### SSH access to guests with NAT port forwarding
 
 Ensure that the VM is off and type commands as a regular <user> account.
-Use 'VBoxmanage' to configure port forwarding. Show your VM's with:
+Use 'VBoxManage' to configure port forwarding. Show your VM's with:
 
     $ VBoxManage list vms
     
 Here we examplify with guest *mojo*. Add a NAT rule for SSH with:
 
-    $ VBoxManage modify mojo --natpf1 "guestssh,tcp,127.0.0.1,2201,,22"
+    $ VBoxManage modifyvm mojo --natpf1 "guestssh,tcp,127.0.0.1,2201,,22"
     
 There is not requirement to specify the guest ip, but we need to use a port
 greater than 1024 on the host. Since we have many VM's, assign *mojo* an
