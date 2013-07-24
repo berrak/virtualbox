@@ -44,13 +44,15 @@ node 'node-mojo.vbox.tld' inherits basenode {
 node 'node-php.vbox.tld' inherits basenode {
     
     # Packages without any special configurations
-    class { vb_install_debs : debs => [ "curl", "evince", "php5", "php5-gd"] }
+    class { vb_install_debs : debs => [ "curl", "evince"] }
     
     # Replace 'bekr' with your existing username
     vb_user_bashrc::config { 'bekr' : }
     
     # Fix LXDE configuration file (bug)
     class { vb_lxde_fixconfig : homeuser => 'bekr' }
+    
+    include vb_php5
     
     # Use name-based virtual hosts, apache2 prefork and sets owner/group (bekr/www-data) to rwx for default directory
     class { vb_apache2::config : homeuser => 'bekr' }
