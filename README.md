@@ -202,12 +202,12 @@ Here we examplify with guest *mojo*. Add a NAT rule for SSH with:
 
     $ VBoxManage modifyvm mojo --natpf1 "guestssh,tcp,127.0.0.1,2201,,22"
     
-There is not requirement to specify the guest ip, but we need to use a port
+There is no requirement to specify the guest ip, but we need to use a port
 greater than 1024 on the host. Since we have many VM's, assign *mojo* an
-unique port number. This can also be done with Oracles GUI (Settings->
+unique port number. This can also be done with Oracles' GUI (Settings->
 Network->Advanced->Port Forwarding).
 
-Now start the VM *mojo* and connect with:
+Now start VM *mojo* and connect with:
 
     $ ssh -p 2201 <user>@127.0.0.1
     
@@ -218,7 +218,7 @@ Use scp to send files to the guest *mojo*:
 Use scp to get files from guest *mojo*, but consider the security risk and save
 files from guests on a separate partition with 'nodev,noexec,nosuid' options:
     
-    $ scp -P 2201 <user>@127.0.0.1:/home/<user>/<file.name>  <file.name>
+    $ scp -P 2201 <user>@127.0.0.1:/home/<user>/<file.name>  <path><file.name>
 
     
 ### Finally update all VM's to be managed by Puppet
