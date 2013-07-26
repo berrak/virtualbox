@@ -5,23 +5,29 @@
 VirtualBox provides a great environment for admin tests or running
 clean desktop environments isolated from the host installation.
 
-This setup describes how to setup Puppet [1] and Git on each VM. 
+Today, probably the greatest IT security risk is actually ourselves. What did
+you downloaded? Did you executed it? Do you know the source? Which unsafe sites
+did you visited? [1]
 
 In this project each virtual machine is managed by Puppet and Git. Each
 VM is totally isolated using the default setup with NAT networking.
 
-Today, probably the greatest IT security risk is actually ourselves. What did
-you downloaded? Did you executed it? Do you know the source? Which unsafe sites
-did you visited? [2]
+This setup describes how to setup Puppet [2] and Git on each VM. 
 
-In the site manifest, a few examples of desktop and server uses are given.
+Here we set up safer desktop for every day use, and bare server:
 
-    * a web desktop (web) environment, hardened for a safer web experience [3]
-    * a Perl web development (mojo) exploring mojolicious web framework [4]
-    * a php development environment (php) exploring php5/SQL etc.
-    * a hardened server setup (hard)
+    * Web desktop (web) environment, hardened for a safer web experience [3]
+    * Hardened server setup (hard)
     
-Here, each VM use Debian 7 iso image [5]. 
+In the site manifest are a few examples of development environments:
+
+    * Perl web development (mojo) exploring Mojolicious web framework [4]
+    * PHP development environment (php) exploring php5/MySQL etc.
+    * Ruby development environment (ruby)
+    * Python development environment (python)
+    
+Here, each VM use Debians' images (debian-7.1.0-amd64-lxde-CD-1.iso or the net-
+installer, debian-7.1.0-amd64-netinst.iso) [5]. 
 
 Above examples will evolve over time and are far from complete. Feel free
 to suggest contributions. To install the latest VirtualBox, see reference [6].
@@ -174,7 +180,8 @@ Create a node certificate and run 'node-mojo' manifests:
 
     # puppet agent --server=mojo.vbox.tld --onetime --no-daemonize --verbose --waitforcert 60
     
-In the second root terminal, view and sign the request from *node-mojo* with:
+In the second root terminal (hit the 'host-key', which usully is 'right-ctrl' key + F1),
+login to view and sign the request from *node-mojo* with:
 
     # puppet cert --list
     # puppet cert --sign node-mojo.vbox.tld
@@ -228,7 +235,7 @@ For each VM, repeat above steps for each VM, i.e. *web*, *php* and *hard*.
 
 ### TODO
 
-Script above steps to automate the VM setup for Git and Puppet.
+Script above steps to automate some of the VM setup for Git and Puppet.
 
 
 ### References

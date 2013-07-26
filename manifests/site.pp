@@ -59,3 +59,33 @@ node 'node-php.vbox.tld' inherits basenode {
      
     
 }
+
+## Purpose is to work with RUBY development
+
+node 'node-ruby.vbox.tld' inherits basenode {
+
+    # Packages without any special configurations
+    class { vb_install_debs : debs => [ "curl", "evince", "wdiff" ] }
+    
+    # Replace 'bekr' with your existing username
+    vb_user_bashrc::config { 'bekr' : }
+    
+    # Fix LXDE configuration file (bug)
+    class { vb_lxde_fixconfig : homeuser => 'bekr' }
+
+}
+
+## Purpose is to work with PYTHON development
+
+node 'node-python.vbox.tld' inherits basenode {
+
+    # Packages without any special configurations
+    class { vb_install_debs : debs => [ "curl", "evince", "wdiff" ] }
+    
+    # Replace 'bekr' with your existing username
+    vb_user_bashrc::config { 'bekr' : }
+    
+    # Fix LXDE configuration file (bug)
+    class { vb_lxde_fixconfig : homeuser => 'bekr' }
+
+}
