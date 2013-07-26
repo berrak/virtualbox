@@ -80,12 +80,15 @@ node 'node-ruby.vbox.tld' inherits basenode {
 node 'node-python.vbox.tld' inherits basenode {
 
     # Packages without any special configurations
-    class { vb_install_debs : debs => [ "curl", "evince", "wdiff", "pylint", "pyflakes" ] }
+    class { vb_install_debs : debs => [ "curl", "evince", "wdiff", "pyflakes" ] }
     
     # Replace 'bekr' with your existing username
     vb_user_bashrc::config { 'bekr' : }
     
     # Fix LXDE configuration file (bug)
     class { vb_lxde_fixconfig : homeuser => 'bekr' }
+    
+    # Lint checker
+    class { vb_python_pylint : homeuser => 'bekr' }
 
 }
