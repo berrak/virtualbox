@@ -89,6 +89,6 @@ node 'node-python.vbox.tld' inherits basenode {
     class { vb_lxde_fixconfig : homeuser => 'bekr' }
     
     # Lint checker
-    class { vb_python_pylint : pythonuser => 'bekr' }
+    vb_python_pylint::config { 'bekr' : }
 
 }

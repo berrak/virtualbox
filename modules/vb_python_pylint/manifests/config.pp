@@ -1,23 +1,25 @@
 #
 # Class to configure pylint
 #
-class vb_python_pylint::config ( $pythonuser ='' ) {
+define vb_python_pylint::config {
 
-    if $pythonuser == '' {
-        fail("FAIL: No user ($pythonuser) given as argument.")
+    include vb_python_pylint
+
+    if $name == '' {
+        fail("FAIL: No user ($name) given as argument.")
     }
     
-    file { "/home/${pythonuser}/pylint":
+    file { "/home/${name}/pylint":
         ensure => "directory",
-         owner => "${pythonuser}",
-         group => "${pythonuser}",
+         owner => "$name",
+         group => "$name",
     }
     
-	file { "/home/${pythonuser}/pylint/pylintrc":
+	file { "/home/${name}/pylint/pylintrc":
 		 source => "puppet:///modules/vb_python_pylint/pylintrc",
-          owner => "${pythonuser}",
-          group => "${pythonuser}",
-		require => File["/home/${pythonuser}/pylint"],
+          owner => "$name",
+          group => "$name",
+		require => File["/home/${name}/pylint"],
 	}
     
 }
