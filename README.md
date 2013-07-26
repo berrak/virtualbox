@@ -55,16 +55,16 @@ Oracle: virtualbox-4.2.16
 
 ### Setting up each VM with NAT (not bridged networking)
 
-If not already done so, install a VM with the VirtualBox wizard (use *New* button)
-and use NAT (which is the default networking setup).
+If not already done so, install a VM with the VirtualBox wizard (use *New*
+button) and use NAT (which is the default networking setup).
 
 Once the Debian installer starts, and with the site manifest as is, use 'web',
-'mojo', 'php' and 'hard' as the *host name*, and here I use 'vbox.tld' as the VM
-*domain name*. Note that each VM domain *must* use the same domain name to
-deploy one universal site manifest for all VM's.
+'mojo', 'php', 'hard', 'ruby' and 'python' as the *host name*, and here I use
+'vbox.tld' as the VM *domain name*. Note that each VM domain *must* use the same
+domain name to deploy one universal site manifest for all VM's.
 
-Install *openssh-server* on each guest VM to provide secure access from host,
-thus there is no requirements to install Oracles' guest additions.
+Install *openssh-server* on each guest VM to provide secure access from host.
+There is no requirement to install Oracles' guest additions to share files.
 
 
 ### Initial Puppet preparations to run master and agent on same host 'mojo'
@@ -230,7 +230,8 @@ files from guests on a separate partition with 'nodev,noexec,nosuid' options:
     
 ### Finally update all VM's to be managed by Puppet
 
-For each VM, repeat above steps for each VM, i.e. *web*, *php* and *hard*.
+For each VM, repeat above steps for each VM, i.e. *web*, *php*, *hard*, *ruby*
+and *python*.
 
 
 ### TODO
