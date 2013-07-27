@@ -54,8 +54,8 @@ node 'node-php.vbox.tld' inherits basenode {
     
     include vb_php5
     
-    # Use name-based virtual hosts, apache2 prefork and sets owner/group (bekr/www-data) to rwx for default directory
-    class { vb_apache2::config : homeuser => 'bekr' }
+    # Use apache2 prefork
+    include vb_apache2
      
     
 }

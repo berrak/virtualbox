@@ -1,14 +1,7 @@
 #
 # Manage apache2
 #
-class vb_apache2::config ($homeuser ='') {
-
-    include vb_apache2::install, vb_apache2::service
-
-    if $homeuser == '' {
-	    fail("FAIL: Missing parameter user ($homeuser)!")
-	}
-
+class vb_apache2::config {
 
     # Global security settings
     
@@ -49,53 +42,58 @@ class vb_apache2::config ($homeuser ='') {
     
     ## Configure the localhost vhost (catch all for an unmatched site)
     
-    file { '/etc/apache2/sites-available/localhost':
-        content =>  template('vb_apache2/localhost.erb'),
-          owner => 'root',
-          group => 'root',       
-        require => Class["vb_apache2::install"],
-    }
-
-    ## Enable the localhost vhost site
+    #file { '/etc/apache2/sites-available/localhost':
+    #    content =>  template('vb_apache2/localhost.erb'),
+    #      owner => 'root',
+    #      group => 'root',       
+    #    require => Class["vb_apache2::install"],
+    #}
+    #
+    ### Enable the localhost vhost site
+    #
+    #file { '/etc/apache2/sites-enabled/000-localhost':
+    #    ensure => 'link',
+    #    target => '/etc/apache2/sites-available/localhost',
+    #   require => Class["vb_apache2::install"],
+    #}
     
-    file { '/etc/apache2/sites-enabled/000-localhost':
-        ensure => 'link',
-        target => '/etc/apache2/sites-available/localhost',
-       require => Class["vb_apache2::install"],
-    }
     
+	# Create the directory for the default site
     
-	# Create the directory for the default and localhost vhost site
-	# Note: sets user to 'homeuser', and group to 'www-data' (Apache user)
-    
-	file { "/var/www/www.default.tld":
+	file { "/var/www/default":
 		ensure => "directory",
-		owner => $homeuser,
-		group => "www-data",
-		mode => '0775',
+		owner => 'root',
+		group => 'root',
 	}
     
-    # Default and localhost index file (maintenance and picture) and the favicon
+	file { "/var/www/default/public":
+		 ensure => "directory",
+		 owner => 'root',
+		 group => 'root',
+		require => ["/var/www/default"],
+	}
+	
+    # Default site index file, picture and favicon (used when site does maintenence)
     
-    file { '/var/www/www.default.tld/index.html':
+    file { '/var/www/default/public/index.html':
          source => "puppet:///modules/vb_apache2/default.index.html",    
           owner => 'root',
           group => 'root',
-        require => File["/var/www/www.default.tld"],
+        require => File["/var/www/default"],
     }
     
-    file { '/var/www/www.default.tld/toolbox.jpg':
+    file { '/var/www/default/public/toolbox.jpg':
          source => "puppet:///modules/vb_apache2/tux-toolbox.jpg",    
           owner => 'root',
           group => 'root',
-        require => File["/var/www/www.default.tld"],
+        require => File["/var/www/default"],
     }
     
-    file { '/var/www/www.default.tld/favicon.ico':
+    file { '/var/www/default/public/favicon.ico':
          source => "puppet:///modules/vb_apache2/tux-favicon.ico",    
           owner => 'root',
           group => 'root',
-        require => File["/var/www/www.default.tld"],
+        require => File["/var/www/default"],
     }  
     
 }

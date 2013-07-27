@@ -1,25 +1,98 @@
 ##############################################################
 # Managed by Puppet. Do not edit. Changes will be wiped out. #
 ##############################################################
-<VirtualHost *:80>
-	ServerAdmin root@localhost
 
-	DocumentRoot /var/www/www.default.tld
+# Catch all vhost
+
+<VirtualHost _default_:*>
+
+	ServerAdmin root@localhost
+	DocumentRoot /var/www/default/public
 	
-	ServerName <%= default_fqdn %>
+	# Always block file system root access in /var/www/default and higher
 	
-	# Always block file system root access in /var/www and higher
-	
-	<Directory /var/www>
+	<Directory /var/www/default>
 		AllowOverride None
 		Options None
 		Order Deny,allow
 		Deny from all
 	</Directory>
 	
-	# Sets access, by default only below /var/www/www.default.tld
+	# Sets access, in default and below /var/www/default/public
 	
-	<Directory /var/www/www.default.tld>
+	<Directory /var/www/default/public>
+		AllowOverride None
+		Options None
+		Allow from all
+		Order Allow,deny
+
+	</Directory>
+
+	ErrorLog ${APACHE_LOG_DIR}/error.log
+
+	LogLevel warn
+
+	CustomLog ${APACHE_LOG_DIR}/access.log combined
+	
+</VirtualHost>
+
+# Localhost catch vhost
+
+<VirtualHost *:80>
+	
+	ServerAdmin root@localhost
+	DocumentRoot /var/www/default/public
+	
+	ServerName localhost
+	
+	# Always block file system root access in /var/www/default and higher
+	
+	<Directory /var/www/default>
+		AllowOverride None
+		Options None
+		Order Deny,allow
+		Deny from all
+	</Directory>
+	
+	# Sets access, in default and below /var/www/default/public
+	
+	<Directory /var/www/default/public>
+		AllowOverride None
+		Options None
+		Allow from all
+		Order Allow,deny
+
+	</Directory>
+
+	ErrorLog ${APACHE_LOG_DIR}/error.log
+
+	LogLevel warn
+
+	CustomLog ${APACHE_LOG_DIR}/access.log combined
+	
+</VirtualHost>
+
+
+# FQDN catch vhost
+
+<VirtualHost *:80>
+	ServerAdmin root@localhost
+	DocumentRoot /var/www/default/public
+	
+	ServerName <%= default_fqdn %>
+	
+	# Always block file system root access in /var/www/default and higher
+	
+	<Directory /var/www/default>
+		AllowOverride None
+		Options None
+		Order Deny,allow
+		Deny from all
+	</Directory>
+	
+	# Sets access, in default and below /var/www/default/public
+	
+	<Directory /var/www/default/public>
 		AllowOverride None
 		Options None
 		Allow from all
