@@ -70,7 +70,7 @@ class vb_apache2::config {
 		 ensure => "directory",
 		 owner => 'root',
 		 group => 'root',
-		require => ["/var/www/default"],
+		require => File["/var/www/default"],
 	}
 	
     # Default site index file, picture and favicon (used when site does maintenence)
