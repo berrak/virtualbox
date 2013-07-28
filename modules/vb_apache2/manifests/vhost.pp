@@ -40,7 +40,7 @@ define vb_apache2::vhost ( $priority='', $urlalias='', $aliastgtpath='' ) {
     file { "/etc/apache2/sites-enabled/${priority}-${name}":
         ensure => 'link',
         target => "/etc/apache2/sites-available/${name}",
-       require => Class["/etc/apache2/sites-available/${name}"],
+       require => File["/etc/apache2/sites-available/${name}"],
         notify => Service["apache2"], 
     }
 
