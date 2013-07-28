@@ -38,24 +38,8 @@ class vb_apache2::config {
         ensure => 'link',
         target => '/etc/apache2/sites-available/default',
        require => Class["vb_apache2::install"],
+	    notify => Service["apache2"],
     }
-    
-    ## Configure the localhost vhost (catch all for an unmatched site)
-    
-    #file { '/etc/apache2/sites-available/localhost':
-    #    content =>  template('vb_apache2/localhost.erb'),
-    #      owner => 'root',
-    #      group => 'root',       
-    #    require => Class["vb_apache2::install"],
-    #}
-    #
-    ### Enable the localhost vhost site
-    #
-    #file { '/etc/apache2/sites-enabled/000-localhost':
-    #    ensure => 'link',
-    #    target => '/etc/apache2/sites-available/localhost',
-    #   require => Class["vb_apache2::install"],
-    #}
     
     
 	# Create the directory for the default site

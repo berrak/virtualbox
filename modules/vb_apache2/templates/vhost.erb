@@ -2,24 +2,28 @@
 # Managed by Puppet. Do not edit. Changes will be wiped out. #
 ##############################################################
 <VirtualHost *:80>
+	
 	ServerAdmin root@localhost
-
-	DocumentRoot /var/www/www.default.tld
+    DocumentRoot /var/www/<%= name %>/public
 	
-	ServerName localhost
+	ServerName <%= name %>
 	
-	# Always block file system root access in /var/www and higher
+	<% if urlalias != '' -%>
+	<% "Alias /#{urlalias}/    #{aliastgtpath}/" -%>
+	<% end -%>
 	
-	<Directory /var/www>
+	# Always block file system root access in /var/www/<%= name %> and higher
+	
+	<Directory /var/www/<%= name %>>
 		AllowOverride None
 		Options None
 		Order Deny,allow
 		Deny from all
 	</Directory>
 	
-	# Sets access, by default only below /var/www/www.default.tld
+	# Only access at public level
 	
-	<Directory /var/www/www.default.tld>
+	<Directory /var/www/<%= name %>/public>
 		AllowOverride None
 		Options None
 		Allow from all
