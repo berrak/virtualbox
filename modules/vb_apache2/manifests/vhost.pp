@@ -11,7 +11,6 @@
 define vb_apache2::vhost ( $priority='', $urlalias='', $aliastgtpath='', $virtual_host ='' ) {
 
     include vb_apache2
-    include vb_hosts
     
     if $priority == '' {
         fail("FAIL: Missing required parameter priority ($priority).")
