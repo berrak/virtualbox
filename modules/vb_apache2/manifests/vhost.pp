@@ -1,9 +1,16 @@
 #
 # Define new Apache2 virtual hosts
 #
+# Sample usage:
+#
+#     vb_apache2::vhost { 'hudson.vbox.tld' :
+#        priority => '001',
+#     } 
+#
 define vb_apache2::vhost ( $priority='', $urlalias='', $aliastgtpath='' ) {
 
     include vb_apache2
+    include vb_hosts
     
     if $priority == '' {
         fail("FAIL: Missing required parameter priority ($priority).")
@@ -82,6 +89,9 @@ define vb_apache2::vhost ( $priority='', $urlalias='', $aliastgtpath='' ) {
     $hostipaddress = $::ipaddress
     
     # Disabled...Think out an alternative solution...
+    
+    vb_hosts::hosts { "$name" : }
+    
     
     #$line = "$hostipaddress $name"
     #

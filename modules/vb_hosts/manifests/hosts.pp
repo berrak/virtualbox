@@ -3,13 +3,25 @@
 ## 
 define vb_hosts::hosts {
 			
+	$apachevfqdn = ''
+	
 	$myaddress = $::ipaddress
 	$myhostname = $::hostname
 	$mydomain = $::domain
 	
-	$myfqdn = $name
+	# this is the default usage
+	if $name == $::fqdn {
+	    $myfqdn = $name
+	}
 	
-	$teststring = 'This is a test'
+	# this when adding virtual host to Apache
+	if $name != $::fqdn {
+	
+	    $myfqdn = $::fqdn
+		
+	    $apachevfqdn = $name
+		
+	}
 	
     file { "/etc/hosts" :
         content => template( "vb_hosts/hosts.erb" ),
