@@ -3,11 +3,12 @@
 #
 # Sample usage:
 #
-#     vb_apache2::vhost { 'hudson.vbox.tld' :
+#     vb_apache2::vhost { 'php.vbox.tld' :
+#        virtual_host => 'hudson.vbox.tld',
 #        priority => '001',
 #     } 
 #
-define vb_apache2::vhost ( $priority='', $urlalias='', $aliastgtpath='' ) {
+define vb_apache2::vhost ( $priority='', $urlalias='', $aliastgtpath='', $virtual_host ='' ) {
 
     include vb_apache2
     include vb_hosts
@@ -82,16 +83,15 @@ define vb_apache2::vhost ( $priority='', $urlalias='', $aliastgtpath='' ) {
         require => File["/var/www/${name}"],
     }
     
+    # Add the new virtual host to /etc/hosts for name resolution
     
-    # append the real host ip-address for this site (unless its there already)
+    vb_hosts::hosts { "$name" :
+        apache_virtual_host => $virtual_host,
+    }
     
-    $hosts_file = "/etc/hosts"
-    $hostipaddress = $::ipaddress
-    
-    # Disabled...Think out an alternative solution...
-    
-    vb_hosts::hosts { "$name" : }
-    
+        
+    # $hosts_file = "/etc/hosts"
+    # $hostipaddress = $::ipaddress
     
     #$line = "$hostipaddress $name"
     #

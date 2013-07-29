@@ -69,8 +69,9 @@ node 'node-php.vbox.tld' inherits basenode {
     # Use apache2 prefork
     include vb_apache2
     
-    # Replace 'bekr' with your existing username
-    vb_apache2::vhost { 'hudson.vbox.tld' :
+    # Define a virtual host
+    vb_apache2::vhost { 'php.vbox.tld' :
+        virtual_host => 'hudson.vbox.tld',
         priority => '001',
     } 
     
