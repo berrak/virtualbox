@@ -3,12 +3,11 @@
 #
 # Sample usage:
 #
-#     vb_apache2::vhost { 'php.vbox.tld' :
-#        virtual_host => 'hudson.vbox.tld',
+#     vb_apache2::vhost { 'hudson.vbox.tld' :
 #        priority => '001',
 #     } 
 #
-define vb_apache2::vhost ( $priority='', $urlalias='', $aliastgtpath='', $virtual_host ='' ) {
+define vb_apache2::vhost ( $priority='', $urlalias='', $aliastgtpath='') {
 
     include vb_apache2
     
