@@ -3,8 +3,6 @@
 ## 
 define vb_hosts::hosts {
 			
-	$apachevfqdn = ''
-	
 	$myaddress = $::ipaddress
 	$myhostname = $::hostname
 	$mydomain = $::domain
