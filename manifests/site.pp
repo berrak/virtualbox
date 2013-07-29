@@ -7,10 +7,7 @@ import 'base.pp'
 ## Purpose is to build a hardened SERVER host - Note no GUI desktop/LXDE
 
 node 'node-hard.vbox.tld' inherits basenode {
-    
-    # Manage the /etc/hosts file
-    vb_hosts::hosts { 'hard.vbox.tld' : }
-    
+        
     # Replace 'bekr' with your existing username
     vb_user_bashrc::config { 'bekr' : }
     
@@ -19,9 +16,6 @@ node 'node-hard.vbox.tld' inherits basenode {
 ## Purpose is to build an isolated desktop for safer WEB experience
 
 node 'node-web.vbox.tld' inherits basenode {
-      
-    # Manage the /etc/hosts file
-    vb_hosts::hosts { 'web.vbox.tld' : }
     
     # Replace 'bekr' with your existing username
     vb_user_bashrc::config { 'bekr' : }
@@ -34,9 +28,6 @@ node 'node-web.vbox.tld' inherits basenode {
 ## Purpose is to work with PERL web frameworks e.g. MOJOLICIOUS
 
 node 'node-mojo.vbox.tld' inherits basenode {
-    
-    # Manage the /etc/hosts file
-    vb_hosts::hosts { 'mojo.vbox.tld' : }
     
     # Packages without any special configurations
     class { vb_install_debs : debs => [ "curl", "evince", "wdiff" ] }
@@ -51,9 +42,6 @@ node 'node-mojo.vbox.tld' inherits basenode {
 ## Purpose is to work with PHP development
 
 node 'node-php.vbox.tld' inherits basenode {
-    
-    # Manage the /etc/hosts file
-    vb_hosts::hosts { 'php.vbox.tld' : }
     
     # Packages without any special configurations
     class { vb_install_debs : debs => [ "curl", "evince", "wdiff" ] }
@@ -70,20 +58,16 @@ node 'node-php.vbox.tld' inherits basenode {
     include vb_apache2
     
     # Define a virtual host
-    vb_apache2::vhost { 'php.vbox.tld' :
-        virtual_host => 'hudson.vbox.tld',
-        priority => '001',
-    } 
+    #vb_apache2::vhost { 'php.vbox.tld' :
+    #    virtual_host => 'hudson.vbox.tld',
+    #    priority => '001',
+    #} 
     
 }
 
 ## Purpose is to work with RUBY development
 
 node 'node-ruby.vbox.tld' inherits basenode {
-
-    
-    # Manage the /etc/hosts file
-    vb_hosts::hosts { 'ruby.vbox.tld' : }
     
     # Packages without any special configurations
     class { vb_install_debs : debs => [ "curl", "evince", "wdiff" ] }
@@ -99,9 +83,6 @@ node 'node-ruby.vbox.tld' inherits basenode {
 ## Purpose is to work with PYTHON development
 
 node 'node-python.vbox.tld' inherits basenode {
-
-    # Manage the /etc/hosts file
-    vb_hosts::hosts { 'python.vbox.tld' : }
     
     # Packages without any special configurations
     class { vb_install_debs : debs => [ "curl", "evince", "wdiff", "pyflakes" ] }

@@ -9,6 +9,9 @@ node basenode {
     # Set up roots' home directories and bash customization
     include vb_root_home
     include vb_root_bashrc
+    
+    # Manage /etc/hosts file
+    include vb_hosts
 
 
 }
