@@ -78,7 +78,7 @@ define vb_apache2::vhost ( $priority='', $urlalias='', $aliastgtpath='' ) {
     
     # append the real host ip-address for this site (unless its there already)
     
-    $hosts_file = '/etc/hosts'
+    $hosts_file = "/etc/vhosts.d/${name}.vh"
     $hostipaddress = $::ipaddress
     
     $line = "$hostipaddress $name"
@@ -88,6 +88,4 @@ define vb_apache2::vhost ( $priority='', $urlalias='', $aliastgtpath='' ) {
         unless => "/bin/grep -Fx $line $hosts_file 2>/dev/null"
     }
     
-
-
 }

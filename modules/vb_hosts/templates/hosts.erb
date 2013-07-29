@@ -8,3 +8,12 @@
 ::1     localhost ip6-localhost ip6-loopback
 ff02::1 ip6-allnodes
 ff02::2 ip6-allrouters
+
+# Source in any other virtual hosts snippets for apache2
+
+cd /etc/vhosts.d
+for vhosts in *.vh
+do
+    source $vhosts
+done
+cd /
