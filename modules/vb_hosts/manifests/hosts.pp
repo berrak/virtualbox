@@ -9,7 +9,9 @@ define vb_hosts::hosts ( $apache_virtual_host = '' ) {
 	
 	if $name != $::fqdn {
 	    $myfqdn = $::fqdn
-    }
+    } else {
+	    $myfqdn = $name
+	}
 	
     file { "/etc/hosts" :
         content => template( "vb_hosts/hosts.erb" ),
