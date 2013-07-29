@@ -83,12 +83,11 @@ define vb_apache2::vhost ( $priority='', $urlalias='', $aliastgtpath='' ) {
     
     $line = "$hostipaddress $name"
     
-    exec { "/bin/echo '$line' >> '$hosts_file'" : }
+    exec { "/bin/echo $line >> $hosts_file":
+        path   => "/usr/bin:/usr/sbin:/bin",
+        unless => "/bin/grep -Fx $line $hosts_file 2>/dev/null"
+    }
     
-    #exec { "/bin/echo '$line' >> '$hosts_file'" :
-    #    unless => "/bin/grep -Fx '$line' '$hosts_file'",
-    #}  
-    
-    
+
 
 }
