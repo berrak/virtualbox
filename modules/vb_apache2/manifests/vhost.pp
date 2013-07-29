@@ -11,6 +11,7 @@
 define vb_apache2::vhost ( $priority='', $urlalias='', $aliastgtpath='', $virtual_host ='' ) {
 
     include vb_apache2
+    include vb_hosts
     
     if $priority == '' {
         fail("FAIL: Missing required parameter priority ($priority).")
@@ -84,7 +85,7 @@ define vb_apache2::vhost ( $priority='', $urlalias='', $aliastgtpath='', $virtua
     
     # Add the new virtual host to /etc/hosts for name resolution
     
-    vb_hosts::hosts { "$name" :
+    vb_hosts::hosts { "$virtual_host" :
         apache_virtual_host => $virtual_host,
     }
     
