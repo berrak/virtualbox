@@ -3,6 +3,6 @@
 ##
 class vb_hosts {
 
-	include vb_hosts::config, vb_hosts::config::virtual
+	include vb_hosts::config
 	
 }
