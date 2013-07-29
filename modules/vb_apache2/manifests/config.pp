@@ -24,6 +24,7 @@ class vb_apache2::config {
     ## Configure the default vhost (catch all for an unmatched site)
     
 	$default_fqdn = $::fqdn
+	$site_domain = $::domain
 	
     file { '/etc/apache2/sites-available/default':
         content =>  template('vb_apache2/default.erb'),

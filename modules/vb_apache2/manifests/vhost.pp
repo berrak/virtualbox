@@ -59,10 +59,10 @@ define vb_apache2::vhost ( $priority='', $urlalias='', $aliastgtpath='' ) {
 		require => File["/var/www/${name}"],
 	}
 	
-    # vhost site index file and favicon
+    # vhost site initial index file and favicon
     
     file { "/var/www/${name}/public/index.html":
-         source => "puppet:///modules/vb_apache2/default.index.html",    
+         source => "puppet:///modules/vb_apache2/newvhost.index.html",    
           owner => 'root',
           group => 'root',
         require => File["/var/www/${name}"],
@@ -73,6 +73,20 @@ define vb_apache2::vhost ( $priority='', $urlalias='', $aliastgtpath='' ) {
           owner => 'root',
           group => 'root',
         require => File["/var/www/${name}"],
-    }  
+    }
+    
+    
+    # append the real host ip-address for this site (unless its there already)
+    
+    $hosts_file = '/etc/hosts'
+    $hostipaddress = $::ipaddress
+    
+    $line = "$hostipaddress $name"
+    
+    exec { "/bin/echo '$line' >> '$hosts_file'" :
+        unless => "/bin/grep -Fx '$line' '$hosts_file'",
+    }
+    
+    
 
 }
