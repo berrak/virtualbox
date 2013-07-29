@@ -1,5 +1,5 @@
 #
-#
+# Define new Apache2 virtual hosts
 #
 define vb_apache2::vhost ( $priority='', $urlalias='', $aliastgtpath='' ) {
 

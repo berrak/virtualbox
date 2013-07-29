@@ -2,9 +2,6 @@
 ## (BASENODE) Included in every node
 #########################################
 node basenode {
-
-    # Manage the /etc/hosts file
-    include vb_hosts
     
     # Manage Puppet itself 
     include vb_puppetize
