@@ -61,7 +61,7 @@ node 'node-php.vbox.tld' inherits basenode {
     vb_apache2::vhost { 'hudson.vbox.tld' : priority => '001' }
     
     # Update the /etc/hosts file for this virtual hosts name resolution
-    class { 'vb_hosts::virtual' : }
+    class { 'vb_hosts::config::virtual' : }
     
 }
 
