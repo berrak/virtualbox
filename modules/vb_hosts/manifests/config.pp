@@ -1,7 +1,7 @@
 ##
 ## Manage the hosts file
 ## 
-class vb_hosts::hosts ( $apache_virtual_host = undef ) {
+class vb_hosts::config ( $apache_virtual_host = undef ) {
 			
 	$myaddress = $::ipaddress
 	$myhostname = $::hostname
