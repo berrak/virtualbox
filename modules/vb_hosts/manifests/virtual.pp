@@ -1,7 +1,7 @@
 ##
 ## Manage the hosts file
 ## 
-class vb_hosts::virtual inherits vb_hosts {
+class vb_hosts::virtual inherits vb_hosts::config {
 			
 	$myaddress = $::ipaddress
 	$myhostname = $::hostname
