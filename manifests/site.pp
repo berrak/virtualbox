@@ -57,11 +57,11 @@ node 'node-php.vbox.tld' inherits basenode {
     # Use apache2 prefork
     include vb_apache2
     
-    # Define a virtual host
-    vb_apache2::vhost { 'hudson.vbox.tld' :
-        priority => '001',
-    }
-    class { 'vb_hosts' : apache_virtual_host => 'hudson.vbox.tld' }
+    # Define a new Apache2 virtual host
+    vb_apache2::vhost { 'hudson.vbox.tld' : priority => '001' }
+    
+    # Update the /etc/hosts file for this virtual hosts name resolution
+    class { 'vb_hosts::virtual' : }
     
 }
 

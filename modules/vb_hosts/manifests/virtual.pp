@@ -1,15 +1,15 @@
 ##
 ## Manage the hosts file
 ## 
-class vb_hosts::config {
+class vb_hosts::virtual inherits vb_hosts {
 			
 	$myaddress = $::ipaddress
 	$myhostname = $::hostname
 	$mydomain = $::domain
 	
-    $teststring = ''
+    $teststring = 'This is inherited!'
 
-    file { "/etc/hosts" :
+    File ["/etc/hosts"] {
         content => template( "vb_hosts/hosts.erb" ),
           owner => 'root',
           group => 'root',
