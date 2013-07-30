@@ -14,5 +14,5 @@ ff02::2 ip6-allrouters
 <% end %>
 
 <% if apache_virtual_host != '' -%>
-<% vhostfqdn.each do |myvhost| -%><%= hostip "#{myvhost} \n" %><% end -%>
+<% vhostfqdn.each do |myvhost| %><%= hostip "#{myvhost}" %><% end -%>
 <% end %>
