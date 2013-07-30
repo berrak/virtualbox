@@ -67,9 +67,10 @@ node 'node-php.vbox.tld' inherits basenode {
     # Use apache2 prefork
     include vb_apache2
     
-    # Define a new Apache2 virtual host
+    # Define a new Apache2 virtual host (public directory writable by homeuser)
     vb_apache2::vhost { 'hudson.vbox.tld' :
             priority => '001',
+            homeuser => 'bekr',
     }
     
     # Manage /etc/hosts file, also for any Apache virtual hosts

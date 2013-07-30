@@ -5,9 +5,10 @@
 #
 #     vb_apache2::vhost { 'hudson.vbox.tld' :
 #        priority => '001',
+#        homeuser => 'bekr',
 #     } 
 #
-define vb_apache2::vhost ( $priority='', $urlalias='', $aliastgtpath='') {
+define vb_apache2::vhost ( $priority='', $homeuser='', $urlalias='', $aliastgtpath='') {
 
     
     # Add a new virtual host fqdn to /etc/hosts for name resolution. This
@@ -15,9 +16,14 @@ define vb_apache2::vhost ( $priority='', $urlalias='', $aliastgtpath='') {
     
     include vb_apache2
     
+    if $homeuser == '' {
+        fail("FAIL: Missing user write permission for user public directory ($homeuser).")
+    }
+
     if $priority == '' {
         fail("FAIL: Missing required parameter priority ($priority).")
     }
+    
     
     if $priority == '000' {
         fail("FAIL: Priority ($priority) can not be 000 - reserved for default site.")
@@ -62,10 +68,14 @@ define vb_apache2::vhost ( $priority='', $urlalias='', $aliastgtpath='') {
 		group => 'root',
 	}
     
-	file { "/var/www/${name}/public":
+    
+    # public directory is writable by user and apache (www-data)
+	
+    file { "/var/www/${name}/public":
 		 ensure => "directory",
-		 owner => 'root',
-		 group => 'root',
+		 owner => $homeuser,
+		 group => 'www-data',
+         mode => '0775',
 		require => File["/var/www/${name}"],
 	}
 	
