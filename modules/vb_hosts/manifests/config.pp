@@ -6,9 +6,7 @@ class vb_hosts::config ( $apache_virtual_host = undef ) {
 	$myaddress = $::ipaddress
 	$myhostname = $::hostname
 	$mydomain = $::domain
-	
-	notify { [ $apache_virtual_host ] : }
-	
+		
 	# copy the array
 	
 	if $apache_virtual_host != undef {
