@@ -1,5 +1,5 @@
 #
-# Define new Apache2 virtual hosts
+# Define new Apache2 virtual hosts in var/www file system and enables it
 #
 # Sample usage:
 #
@@ -9,6 +9,10 @@
 #
 define vb_apache2::vhost ( $priority='', $urlalias='', $aliastgtpath='') {
 
+    
+    # Add a new virtual host fqdn to /etc/hosts for name resolution. This
+    # is done in site.pp and 'vb_hosts' parameter 'apache_virtual_hosts'
+    
     include vb_apache2
     
     if $priority == '' {
@@ -81,21 +85,4 @@ define vb_apache2::vhost ( $priority='', $urlalias='', $aliastgtpath='') {
         require => File["/var/www/${name}"],
     }
     
-    # Add the new virtual host to /etc/hosts for name resolution
-    
-    #vb_hosts::hosts { "$virtual_host" :
-    #    apache_virtual_host => $virtual_host,
-    #}
-    
-        
-    # $hosts_file = "/etc/hosts"
-    # $hostipaddress = $::ipaddress
-    
-    #$line = "$hostipaddress $name"
-    #
-    #exec { "/bin/echo $line >> $hosts_file":
-    #    path   => "/usr/bin:/usr/sbin:/bin",
-    #    unless => "/bin/grep -Fx $line $hosts_file 2>/dev/null"
-    #}
-    #
 }
