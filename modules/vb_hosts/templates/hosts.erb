@@ -13,6 +13,5 @@ ff02::2 ip6-allrouters
 <%= "# Virtual hosts name resolution for apache2" %>
 <% end %>
 
-<% if vhostfqdn.is_a? Array -%>
 <% vhostfqdn.each do |myvhost| -%><%= myvhost "\n" %><% end -%>
 
