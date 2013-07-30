@@ -10,7 +10,7 @@ node 'node-hard.vbox.tld' inherits basenode {
         
     
     # Manage /etc/hosts file
-    vb_hosts { 'hard.vbox.tld' : }
+    include vb_hosts
     
     # Replace 'bekr' with your existing username
     vb_user_bashrc::config { 'bekr' : }
@@ -22,7 +22,7 @@ node 'node-hard.vbox.tld' inherits basenode {
 node 'node-web.vbox.tld' inherits basenode {
     
     # Manage /etc/hosts file
-    vb_hosts { 'web.vbox.tld' : }
+    include vb_hosts
     
     # Replace 'bekr' with your existing username
     vb_user_bashrc::config { 'bekr' : }
@@ -37,7 +37,7 @@ node 'node-web.vbox.tld' inherits basenode {
 node 'node-mojo.vbox.tld' inherits basenode {
     
     # Manage /etc/hosts file
-    vb_hosts { 'mojo.vbox.tld' : }
+    include vb_hosts
     
     # Packages without any special configurations
     class { vb_install_debs : debs => [ "curl", "evince", "wdiff" ] }
@@ -71,7 +71,7 @@ node 'node-php.vbox.tld' inherits basenode {
     vb_apache2::vhost { 'hudson.vbox.tld' : priority => '001' }
     
     # Manage /etc/hosts file, also Apache virtual hosts
-    vb_hosts { 'php.vbox.tld' : apache_virtual_host => [ 'hudson.vbox.tld', 'test.vbox.tld' ] }    
+    class { vb_hosts::config : apache_virtual_host => [ 'hudson.vbox.tld', 'test.vbox.tld', ] }    
 
 }
 
@@ -80,7 +80,7 @@ node 'node-php.vbox.tld' inherits basenode {
 node 'node-ruby.vbox.tld' inherits basenode {
     
     # Manage /etc/hosts file
-    vb_hosts { 'ruby.vbox.tld' : }   
+    include vb_hosts
     
     # Packages without any special configurations
     class { vb_install_debs : debs => [ "curl", "evince", "wdiff" ] }
@@ -98,7 +98,7 @@ node 'node-ruby.vbox.tld' inherits basenode {
 node 'node-python.vbox.tld' inherits basenode {
     
     # Manage /etc/hosts file
-    vb_hosts { 'python.vbox.tld' : }   
+    include vb_hosts
     
     # Packages without any special configurations
     class { vb_install_debs : debs => [ "curl", "evince", "wdiff", "pyflakes" ] }

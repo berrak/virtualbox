@@ -1,29 +1,8 @@
 ##
 ## This define manage the settings in hosts file
 ##
-define vb_hosts ( $apache_virtual_host = undef ) {
+class vb_hosts {
 
-	$myaddress = $::ipaddress
-	$myhostname = $::hostname
-	$mydomain = $::domain
-	
-	notify { "$apache_virtual_host" : }
-	
-	# copy the array
-	if $apache_virtual_host != undef {
-        $vhostfqdn = $apache_virtual_host
-    } else
-	{
-	    $vhostfqdn = ''
-		$apache_virtual_host = ''
-	}
-
-    $hostip = $::ipaddress 
-
-    file { "/etc/hosts" :
-        content => template( "vb_hosts/hosts.erb" ),
-          owner => 'root',
-          group => 'root',
-    }	
+    include vb_hosts::config
 	
 }
