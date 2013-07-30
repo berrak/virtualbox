@@ -1,8 +1,18 @@
 ##
-## This class manage the settings in virtual host file
+## This define manage the settings in hosts file
 ##
-class vb_hosts {
+define vb_hosts {
 
-	include vb_hosts::config
+	$myaddress = $::ipaddress
+	$myhostname = $::hostname
+	$mydomain = $::domain
+	
+    $teststring = ''
+
+    file { "/etc/hosts" :
+        content => template( "vb_hosts/hosts.erb" ),
+          owner => 'root',
+          group => 'root',
+    }	
 	
 }
