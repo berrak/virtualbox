@@ -71,8 +71,8 @@ node 'node-php.vbox.tld' inherits basenode {
     vb_apache2::vhost { 'hudson.vbox.tld' : priority => '001' }
     
     # Manage /etc/hosts file, also new Apache virtual hosts
-    vb_hosts { 'php.vbox.tld' : apache_virtual_host => 'hudson.vbox.tld' }    
-    
+    #vb_hosts { 'php.vbox.tld' : apache_virtual_host => 'hudson.vbox.tld' }    
+    vb_hosts { 'php.vbox.tld' : }    
 }
 
 ## Purpose is to work with RUBY development
