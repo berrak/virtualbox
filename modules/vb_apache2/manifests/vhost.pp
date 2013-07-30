@@ -71,12 +71,20 @@ define vb_apache2::vhost ( $priority='', $homeuser='', $urlalias='', $aliastgtpa
     
     # public directory is writable by user and apache (www-data)
 	
-    file { "/var/www/${name}/public":
+    file { "/var/www/${name}/public" :
 		 ensure => "directory",
 		 owner => $homeuser,
 		 group => 'www-data',
          mode => '0775',
 		require => File["/var/www/${name}"],
+	}
+    
+    file { [ "/var/www/${name}/public/images", "/var/www/${name}/public/thumbnails" ] :
+		 ensure => "directory",
+		 owner => $homeuser,
+		 group => 'www-data',
+         mode => '0775',
+		require => File["/var/www/${name}/public"],
 	}
 	
     # vhost site initial index file and favicon
