@@ -9,6 +9,9 @@
 ff02::1 ip6-allnodes
 ff02::2 ip6-allrouters
 
-# Virtual hosts name resolution for apache2
+<% if apache_virtual_host != '' -%>
+<%= "# Virtual hosts name resolution for apache2" %>
+<% end %>
 
-<%= apache_virtual_host %>
+
+
