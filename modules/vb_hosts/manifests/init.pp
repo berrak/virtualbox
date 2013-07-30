@@ -1,17 +1,19 @@
 ##
 ## This define manage the settings in hosts file
 ##
-define vb_hosts ( $apache_virtual_host = '') {
+define vb_hosts ( $apache_virtual_host = undef ) {
 
 	$myaddress = $::ipaddress
 	$myhostname = $::hostname
 	$mydomain = $::domain
 	
-	if $apache_virtual_host != '' {
+	# copy the array
+	if $apache_virtual_host != undef {
         $vhostfqdn = $apache_virtual_host
     } else
 	{
 	    $vhostfqdn = ''
+		$apache_virtual_host = ''
 	}
 
     $hostip = $::ipaddress 
