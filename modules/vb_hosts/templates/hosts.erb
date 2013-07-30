@@ -13,5 +13,6 @@ ff02::2 ip6-allrouters
 <%= "# Virtual hosts name resolution for apache2" %>
 <% end %>
 
-
+<% if apache_virtual_host.is_a? Array -%>
+<% apache_virtual_host.each do |name| -%><%= "#{name}\n" %><% end -%>
 
