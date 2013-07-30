@@ -11,7 +11,7 @@ define vb_hosts ( $apache_virtual_host = undef ) {
 	
 	# copy the array
 	if $apache_virtual_host != undef {
-        $vhostfqdn = $apache_virtual_host
+        $vhostfqdn = [ $apache_virtual_host ]
     } else
 	{
 	    $vhostfqdn = ''
