@@ -71,7 +71,7 @@ node 'node-php.vbox.tld' inherits basenode {
     vb_apache2::vhost { 'hudson.vbox.tld' :
             priority => '001',
             urlalias => 'tutorial',
-        aliastgtpath => '/home/bekr/phpwork/PaulHudson/' ,
+        aliastgtpath => '/home/bekr/phpwork/PaulHudson' ,
     }
     
     # Manage /etc/hosts file, also for any Apache virtual hosts
