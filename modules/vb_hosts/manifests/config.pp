@@ -19,8 +19,6 @@ class vb_hosts::config ( $apache_virtual_host = undef ) {
 		$apache_virtual_host = ''
 	}
 
-    $hostip = $::ipaddress 
-
     file { "/etc/hosts" :
         content => template( "vb_hosts/hosts.erb" ),
           owner => 'root',
