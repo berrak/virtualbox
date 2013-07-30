@@ -43,6 +43,7 @@ define vb_apache2::vhost ( $priority='', $urlalias='', $aliastgtpath='') {
           owner => 'root',
           group => 'root',       
         require => Class["vb_apache2::install"],
+         notify => Service["apache2"], 
     }
     
     ## Enable the vhost site
@@ -51,7 +52,6 @@ define vb_apache2::vhost ( $priority='', $urlalias='', $aliastgtpath='') {
         ensure => 'link',
         target => "/etc/apache2/sites-available/${name}",
        require => File["/etc/apache2/sites-available/${name}"],
-        notify => Service["apache2"], 
     }
 
 	# Create the initial directory for the vhost site
