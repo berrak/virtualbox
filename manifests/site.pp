@@ -71,7 +71,7 @@ node 'node-php.vbox.tld' inherits basenode {
     vb_apache2::vhost { 'hudson.vbox.tld' : priority => '001' }
     
     # Manage /etc/hosts file, also Apache virtual hosts
-    vb_hosts { 'php.vbox.tld' : apache_virtual_host => ['hudson.vbox.tld', 'test.vbox.tld'] }    
+    vb_hosts { 'php.vbox.tld' : apache_virtual_host => 'hudson.vbox.tld'}    
 
 }
 
