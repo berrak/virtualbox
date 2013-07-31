@@ -6,9 +6,10 @@
 #     vb_apache2::vhost { 'hudson.vbox.tld' :
 #        priority => '001',
 #        homeuser => 'bekr',
+#        phpgroupname => 'phpuser',
 #     } 
 #
-define vb_apache2::vhost ( $priority='', $homeuser='', $urlalias='', $aliastgtpath='') {
+define vb_apache2::vhost ( $priority='', $homeuser='', $phpgroupname='', $urlalias='', $aliastgtpath='') {
 
     
     # Add a new virtual host fqdn to /etc/hosts for name resolution. This
@@ -17,7 +18,11 @@ define vb_apache2::vhost ( $priority='', $homeuser='', $urlalias='', $aliastgtpa
     include vb_apache2
     
     if $homeuser == '' {
-        fail("FAIL: Missing user write permission for user public directory ($homeuser).")
+        fail("FAIL: Missing user write permission for user work directory ($homeuser).")
+    }
+    
+    if $phpgroupname == '' {
+        fail("FAIL: Missing group name for user work directory ($phpgroupname).")
     }
 
     if $priority == '' {
@@ -68,25 +73,6 @@ define vb_apache2::vhost ( $priority='', $homeuser='', $urlalias='', $aliastgtpa
 		group => 'root',
 	}
     
-    
-    # public directory is writable by user and apache (www-data)
-	
-    file { "/var/www/${name}/public" :
-		 ensure => "directory",
-		 owner => $homeuser,
-		 group => 'www-data',
-         mode => '0775',
-		require => File["/var/www/${name}"],
-	}
-    
-    file { [ "/var/www/${name}/public/images", "/var/www/${name}/public/thumbnails" ] :
-		 ensure => "directory",
-		 owner => $homeuser,
-		 group => 'www-data',
-         mode => '0775',
-		require => File["/var/www/${name}/public"],
-	}
-	
     # vhost site initial index file and favicon
     
     file { "/var/www/${name}/public/index.html":
@@ -101,6 +87,39 @@ define vb_apache2::vhost ( $priority='', $homeuser='', $urlalias='', $aliastgtpa
           owner => 'root',
           group => 'root',
         require => File["/var/www/${name}"],
+    }    
+  
+    group { "$phpgroupname" :
+        ensure => present,
+           gid => '1500',
     }
+    
+    exec { "/usr/sbin/adduser $name $phpgroupname" :
+         unless => "/bin/grep $phpgroupname /etc/group 2>/dev/null",
+        require => Group["$phpgroupname"],
+    }
+  
+    
+    # THIS SECTION SETUP A DEFAULT DIRECTORY STRUCTURE AND FILE OWNERSHIPS FOR THIS VHOST
+    
+    # public directory is writable by user and apache (www-data)
+	
+#    file { "/var/www/${name}/public" :
+#		 ensure => "directory",
+#		 owner => $homeuser,
+#		 group => 'www-data',
+#         mode => '0775',
+#		require => File["/var/www/${name}"],
+#	}
+#    
+#    file { [ "/var/www/${name}/public/images", "/var/www/${name}/public/thumbnails" ] :
+#		 ensure => "directory",
+#		 owner => $homeuser,
+#		 group => 'www-data',
+#         mode => '0775',
+#		require => File["/var/www/${name}/public"],
+#	}
+	
+
     
 }
