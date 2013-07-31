@@ -94,8 +94,8 @@ define vb_apache2::vhost ( $priority='', $homeuser='', $phpgroupname='', $urlali
             gid => '1500',
     }
     
-    exec { "/usr/sbin/adduser ${name} ${phpgroupname}" :
-         unless => "/bin/grep -Fx '$phpgroupname:x:1500:$name'  /etc/group 2>/dev/null",
+    exec { "/usr/sbin/adduser ${homeuser} ${phpgroupname}" :
+         unless => "/bin/grep -Fx '$phpgroupname:x:1500:$homeuser'  /etc/group 2>/dev/null",
         require => Group["$phpgroupname"],
     }
   
