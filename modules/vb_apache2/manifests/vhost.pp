@@ -99,27 +99,61 @@ define vb_apache2::vhost ( $priority='', $homeuser='', $phpgroupname='', $urlali
         require => Group["$phpgroupname"],
     }
   
+    #
+    ## THIS SECTION SETUP A DEFAULT DIRECTORY STRUCTURE AND FILE OWNERSHIPS FOR THIS VHOST
+    #
     
-    # THIS SECTION SETUP A DEFAULT DIRECTORY STRUCTURE AND FILE OWNERSHIPS FOR THIS VHOST
+    # PUBLIC directory is writable by group 'phpuser' to be able to update index files
+	
+    file { "/var/www/${name}/public" :
+		 ensure => "directory",
+		 owner => 'root',
+		 group => $phpgroupname,
+         mode => '0775',
+		require => File["/var/www/${name}"],
+	}
     
-    # public directory is writable by user and apache (www-data)
+    # PHP code for 'phpuser' group goes one directoty level up
+    
+    file { "/var/www/${name}/rwcode" :
+		 ensure => "directory",
+		 owner => 'root',
+		 group => $phpgroupname,
+         mode => '0775',
+		require => File["/var/www/${name}"],
+	}
 	
-#    file { "/var/www/${name}/public" :
-#		 ensure => "directory",
-#		 owner => $homeuser,
-#		 group => 'www-data',
-#         mode => '0775',
-#		require => File["/var/www/${name}"],
-#	}
-#    
-#    file { [ "/var/www/${name}/public/images", "/var/www/${name}/public/thumbnails" ] :
-#		 ensure => "directory",
-#		 owner => $homeuser,
-#		 group => 'www-data',
-#         mode => '0775',
-#		require => File["/var/www/${name}/public"],
-#	}
-	
-
+    file { "/var/www/${name}/rwcode/include" :
+		 ensure => "directory",
+		 owner => 'root',
+		 group => $phpgroupname,
+         mode => '0775',
+		require => File["/var/www/${name}/rwcode"],
+	}
+    
+    # STATIC files read-only-data also
+    
+    file { "/var/www/${name}/static" :
+		 ensure => "directory",
+		 owner => 'root',
+		 group => 'root',
+		require => File["/var/www/${name}"],
+	}
+    
+    file { [ "/var/www/${name}/rdata/img", "/var/www/${name}/rdata/css" ] :
+		 ensure => "directory",
+		 owner => 'root',
+		 group => 'root',
+		require => File["/var/www/${name}/static"],
+	} 
+    
+    # PHP application data (writable by php app) also
+    
+    file { "/var/www/${name}/data" :
+		 ensure => "directory",
+		 owner => 'www-data',
+		 group => 'root',
+		require => File["/var/www/${name}"],
+	}
     
 }
