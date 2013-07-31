@@ -136,14 +136,16 @@ define vb_apache2::vhost ( $priority='', $homeuser='', $phpgroupname='', $urlali
     file { "/var/www/${name}/static" :
 		 ensure => "directory",
 		 owner => 'root',
-		 group => 'root',
+		 group => $phpgroupname,
+         mode => '0775',
 		require => File["/var/www/${name}"],
 	}
     
     file { [ "/var/www/${name}/static/img", "/var/www/${name}/static/css" ] :
 		 ensure => "directory",
 		 owner => 'root',
-		 group => 'root',
+		 group => $phpgroupname,
+         mode => '0775',
 		require => File["/var/www/${name}/static"],
 	} 
     
