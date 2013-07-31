@@ -140,7 +140,7 @@ define vb_apache2::vhost ( $priority='', $homeuser='', $phpgroupname='', $urlali
 		require => File["/var/www/${name}"],
 	}
     
-    file { [ "/var/www/${name}/rdata/img", "/var/www/${name}/rdata/css" ] :
+    file { [ "/var/www/${name}/static/img", "/var/www/${name}/static/css" ] :
 		 ensure => "directory",
 		 owner => 'root',
 		 group => 'root',
