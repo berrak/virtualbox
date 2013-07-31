@@ -92,13 +92,12 @@ define vb_apache2::vhost ( $priority='', $homeuser='', $phpgroupname='', $urlali
     group { "$phpgroupname" :
          ensure => present,
             gid => '1500',
-        members => $name,
     }
     
-    #exec { "/usr/sbin/adduser $name $phpgroupname" :
-    #     unless => "/bin/grep $phpgroupname /etc/group 2>/dev/null",
-    #    require => Group["$phpgroupname"],
-    #}
+    exec { "/usr/sbin/adduser ${name} ${phpgroupname}" :
+         unless => "/bin/grep $phpgroupname /etc/group 2>/dev/null",
+        require => Group["$phpgroupname"],
+    }
   
     
     # THIS SECTION SETUP A DEFAULT DIRECTORY STRUCTURE AND FILE OWNERSHIPS FOR THIS VHOST
