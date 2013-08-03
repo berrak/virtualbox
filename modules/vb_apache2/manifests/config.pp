@@ -78,22 +78,22 @@ class vb_apache2::config {
 
     # Images in /default/static
 
-	file { "/var/www/default/static":
+	file { "/var/www/default/public/static":
 		 ensure => "directory",
 		 owner => 'root',
 		 group => 'root',
 	}
 	
-    file { '/var/www/default/static/toolbox.jpg':
+    file { '/var/www/default/public/static/toolbox.jpg':
          source => "puppet:///modules/vb_apache2/tux-toolbox.jpg",    
           owner => 'root',
           group => 'root',
-        require => File["/var/www/default/static"],
+        require => File["/var/www/default/public/static"],
     }
     
     # Possible style sheets in /styles
 	
-	file { "/var/www/default/styles":
+	file { "/var/www/default/public/styles":
 		 ensure => "directory",
 		 owner => 'root',
 		 group => 'root',
