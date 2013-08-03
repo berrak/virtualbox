@@ -109,7 +109,7 @@ define vb_apache2::vhost ( $priority='', $homeuser='', $phpgroupname='', $groupi
     ## THIS SECTION SETUP A DEFAULT DIRECTORY STRUCTURE AND FILE OWNERSHIPS FOR THIS VHOST
     #
     
-    # PUBLIC directory (document-root) is writable by group 'phpuser' to be able to update index/favicon file
+    # PUBLIC directory (document-root) is writable by developer group 'phpdev' to be able to update files
 	
     file { "/var/www/${name}/public" :
 		 ensure => "directory",
@@ -119,10 +119,31 @@ define vb_apache2::vhost ( $priority='', $homeuser='', $phpgroupname='', $groupi
 		require => File["/var/www/${name}"],
 	}
     
+    # STATIC directory for images
     
-    ## Remaining directories are one directory level up
+    file { "/var/www/${name}/public/static" :
+		 ensure => "directory",
+		 owner => 'root',
+		 group => $phpgroupname,
+         mode => '0775',
+		require => File["/var/www/${name}/public"],
+	}
     
-    # PHP code for group developer 'phpuser'
+    # STATIC directory for stylesheets
+    
+    file { "/var/www/${name}/public/styles" :
+		 ensure => "directory",
+		 owner => 'root',
+		 group => $phpgroupname,
+         mode => '0775',
+		require => File["/var/www/${name}/public"],
+	}   
+    
+    
+    
+    ## Developer directories for code are one directory level up
+    
+    # PHP code for group developer 'phpdev'
     
     file { "/var/www/${name}/rwcode" :
 		 ensure => "directory",
@@ -132,7 +153,7 @@ define vb_apache2::vhost ( $priority='', $homeuser='', $phpgroupname='', $groupi
 		require => File["/var/www/${name}"],
 	}
 	
-    # PHP include files for 'phpuser' group goes one directory below the rwcode    
+    # PHP include files for 'phpdev' group goes one directory below the rwcode    
 
     file { "/var/www/${name}/rwcode/includes" :
 		 ensure => "directory",
@@ -142,27 +163,9 @@ define vb_apache2::vhost ( $priority='', $homeuser='', $phpgroupname='', $groupi
 		require => File["/var/www/${name}/rwcode"],
 	}
     
-    # STATIC files (images) www-data read-only
+
     
-    file { "/var/www/${name}/static" :
-		 ensure => "directory",
-		 owner => 'root',
-		 group => $phpgroupname,
-         mode => '0775',
-		require => File["/var/www/${name}"],
-	}
-    
-    # STATIC files (css stylesheets) www-data read-only
-    
-    file { "/var/www/${name}/styles" :
-		 ensure => "directory",
-		 owner => 'root',
-		 group => $phpgroupname,
-         mode => '0775',
-		require => File["/var/www/${name}"],
-	} 
-    
-    # PHP INDATA data for app to process (read), writable by group 'phpuser' 
+    # PHP INDATA data for app to process (read), writable by group 'phpdev' 
     
     file { "/var/www/${name}/input" :
 		 ensure => "directory",
