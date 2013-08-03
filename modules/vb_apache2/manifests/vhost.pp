@@ -6,10 +6,11 @@
 #     vb_apache2::vhost { 'hudson.vbox.tld' :
 #        priority => '001',
 #        homeuser => 'bekr',
-#        phpgroupname => 'phpuser',
+#        phpgroupname => 'phpdev',
+#        groupid => '1500',
 #     } 
 #
-define vb_apache2::vhost ( $priority='', $homeuser='', $phpgroupname='', $urlalias='', $aliastgtpath='') {
+define vb_apache2::vhost ( $priority='', $homeuser='', $phpgroupname='', $groupid='', $urlalias='', $aliastgtpath='') {
 
     
     # Add a new virtual host fqdn to /etc/hosts for name resolution. This
@@ -24,6 +25,11 @@ define vb_apache2::vhost ( $priority='', $homeuser='', $phpgroupname='', $urlali
     if $phpgroupname == '' {
         fail("FAIL: Missing group name for user work directory ($phpgroupname).")
     }
+
+    if $groupid == '' {
+        fail("FAIL: Missing developer group id ($groupid) to work in /var/www sub-directories.")
+    }
+
 
     if $priority == '' {
         fail("FAIL: Missing required parameter priority ($priority).")
@@ -91,11 +97,11 @@ define vb_apache2::vhost ( $priority='', $homeuser='', $phpgroupname='', $urlali
   
     group { "$phpgroupname" :
          ensure => present,
-            gid => '1500',
+            gid => $groupid,
     }
     
     exec { "/usr/sbin/adduser ${homeuser} ${phpgroupname}" :
-         unless => "/bin/grep -Fx '$phpgroupname:x:1500:$homeuser'  /etc/group 2>/dev/null",
+         unless => "/bin/grep -Fx '$phpgroupname:x:$groupid:$homeuser'  /etc/group 2>/dev/null",
         require => Group["$phpgroupname"],
     }
   
@@ -103,7 +109,7 @@ define vb_apache2::vhost ( $priority='', $homeuser='', $phpgroupname='', $urlali
     ## THIS SECTION SETUP A DEFAULT DIRECTORY STRUCTURE AND FILE OWNERSHIPS FOR THIS VHOST
     #
     
-    # PUBLIC directory is writable by group 'phpuser' to be able to update index files
+    # PUBLIC directory (document-root) is writable by group 'phpuser' to be able to update index/favicon file
 	
     file { "/var/www/${name}/public" :
 		 ensure => "directory",
@@ -113,7 +119,10 @@ define vb_apache2::vhost ( $priority='', $homeuser='', $phpgroupname='', $urlali
 		require => File["/var/www/${name}"],
 	}
     
-    # PHP code for 'phpuser' group goes one directoty level up
+    
+    ## Remaining directories are one directory level up
+    
+    # PHP code for group developer 'phpuser'
     
     file { "/var/www/${name}/rwcode" :
 		 ensure => "directory",
@@ -123,7 +132,9 @@ define vb_apache2::vhost ( $priority='', $homeuser='', $phpgroupname='', $urlali
 		require => File["/var/www/${name}"],
 	}
 	
-    file { "/var/www/${name}/rwcode/include" :
+    # PHP include files for 'phpuser' group goes one directory below the rwcode    
+
+    file { "/var/www/${name}/rwcode/includes" :
 		 ensure => "directory",
 		 owner => 'root',
 		 group => $phpgroupname,
@@ -131,7 +142,7 @@ define vb_apache2::vhost ( $priority='', $homeuser='', $phpgroupname='', $urlali
 		require => File["/var/www/${name}/rwcode"],
 	}
     
-    # STATIC files read-only-data also
+    # STATIC files (images) www-data read-only
     
     file { "/var/www/${name}/static" :
 		 ensure => "directory",
@@ -141,17 +152,29 @@ define vb_apache2::vhost ( $priority='', $homeuser='', $phpgroupname='', $urlali
 		require => File["/var/www/${name}"],
 	}
     
-    file { [ "/var/www/${name}/static/img", "/var/www/${name}/static/css" ] :
+    # STATIC files (css stylesheets) www-data read-only
+    
+    file { "/var/www/${name}/styles" :
 		 ensure => "directory",
 		 owner => 'root',
 		 group => $phpgroupname,
          mode => '0775',
-		require => File["/var/www/${name}/static"],
+		require => File["/var/www/${name}"],
 	} 
     
-    # PHP application data (writable by php app) also
+    # PHP INDATA data for app to process (read), writable by group 'phpuser' 
     
-    file { "/var/www/${name}/data" :
+    file { "/var/www/${name}/input" :
+		 ensure => "directory",
+		 owner => 'root',
+		 group => $phpgroupname,
+         mode => '0775',
+		require => File["/var/www/${name}"],
+	}
+
+    # PHP application OUTDATA (writable by php app i.e. www-data)
+    
+    file { "/var/www/${name}/output" :
 		 ensure => "directory",
 		 owner => 'www-data',
 		 group => 'root',
