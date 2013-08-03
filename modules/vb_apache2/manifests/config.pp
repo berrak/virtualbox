@@ -76,7 +76,7 @@ class vb_apache2::config {
         require => File["/var/www/default"],
     }  
 
-    # Images in /static
+    # Images in /default/static
 
 	file { "/var/www/default/static":
 		 ensure => "directory",
@@ -84,11 +84,11 @@ class vb_apache2::config {
 		 group => 'root',
 	}
 	
-    file { '/var/www/static/toolbox.jpg':
+    file { '/var/www/default/static/toolbox.jpg':
          source => "puppet:///modules/vb_apache2/tux-toolbox.jpg",    
           owner => 'root',
           group => 'root',
-        require => File["/var/www/static"],
+        require => File["/var/www/default/static"],
     }
     
     # Possible style sheets in /styles
