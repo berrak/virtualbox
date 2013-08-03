@@ -43,7 +43,7 @@ class vb_apache2::config {
     }
     
     
-	# Create the directory for the default site
+	# Create the directory structure for the default site
     
 	file { "/var/www/default":
 		ensure => "directory",
@@ -51,6 +51,8 @@ class vb_apache2::config {
 		group => 'root',
 	}
     
+	# Doc root
+	
 	file { "/var/www/default/public":
 		 ensure => "directory",
 		 owner => 'root',
@@ -58,7 +60,7 @@ class vb_apache2::config {
 		require => File["/var/www/default"],
 	}
 	
-    # Default site index file, picture and favicon (used when site does maintenence)
+    # Default site index file and favicon (used when site does maintenence)
     
     file { '/var/www/default/public/index.html':
          source => "puppet:///modules/vb_apache2/default.index.html",    
@@ -66,19 +68,37 @@ class vb_apache2::config {
           group => 'root',
         require => File["/var/www/default"],
     }
-    
-    file { '/var/www/default/public/toolbox.jpg':
-         source => "puppet:///modules/vb_apache2/tux-toolbox.jpg",    
-          owner => 'root',
-          group => 'root',
-        require => File["/var/www/default"],
-    }
-    
+
     file { '/var/www/default/public/favicon.ico':
          source => "puppet:///modules/vb_apache2/tux-favicon.ico",    
           owner => 'root',
           group => 'root',
         require => File["/var/www/default"],
     }  
+
+    # Images in /static
+
+	file { "/var/www/default/static":
+		 ensure => "directory",
+		 owner => 'root',
+		 group => 'root',
+	}
+	
+    file { '/var/www/static/toolbox.jpg':
+         source => "puppet:///modules/vb_apache2/tux-toolbox.jpg",    
+          owner => 'root',
+          group => 'root',
+        require => File["/var/www/static"],
+    }
+    
+    # Possible style sheets in /styles
+	
+	file { "/var/www/default/styles":
+		 ensure => "directory",
+		 owner => 'root',
+		 group => 'root',
+	}	
+	
+	
     
 }
