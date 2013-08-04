@@ -5,12 +5,10 @@
 #
 #     vb_apache2::vhost { 'hudson.vbox.tld' :
 #        priority => '001',
-#        homeuser => 'bekr',
-#        phpgroupname => 'phpdev',
-#        groupid => '1500',
+#        phpdevgroupid => 'bekr',
 #     } 
 #
-define vb_apache2::vhost ( $priority='', $homeuser='', $phpgroupname='', $groupid='', $urlalias='', $aliastgtpath='') {
+define vb_apache2::vhost ( $priority='', $phpdevgroupid='', $urlalias='', $aliastgtpath='') {
 
     
     # Add a new virtual host fqdn to /etc/hosts for name resolution. This
@@ -18,18 +16,9 @@ define vb_apache2::vhost ( $priority='', $homeuser='', $phpgroupname='', $groupi
     
     include vb_apache2
     
-    if $homeuser == '' {
-        fail("FAIL: Missing user write permission for user work directory ($homeuser).")
+    if $phpdevgroupid == '' {
+        fail("FAIL: Missing group name for developer work under /var/www-directory tree ($phpdevgroupid).")
     }
-    
-    if $phpgroupname == '' {
-        fail("FAIL: Missing group name for user work directory ($phpgroupname).")
-    }
-
-    if $groupid == '' {
-        fail("FAIL: Missing developer group id ($groupid) to work in /var/www sub-directories.")
-    }
-
 
     if $priority == '' {
         fail("FAIL: Missing required parameter priority ($priority).")
@@ -95,15 +84,6 @@ define vb_apache2::vhost ( $priority='', $homeuser='', $phpgroupname='', $groupi
         require => File["/var/www/${name}"],
     }    
   
-    group { "$phpgroupname" :
-         ensure => present,
-            gid => $groupid,
-    }
-    
-    exec { "/usr/sbin/adduser ${homeuser} ${phpgroupname}" :
-         unless => "/bin/grep -Fx '$phpgroupname:x:$groupid:$homeuser'  /etc/group 2>/dev/null",
-        require => Group["$phpgroupname"],
-    }
   
     #
     ## THIS SECTION SETUP A DEFAULT DIRECTORY STRUCTURE AND FILE OWNERSHIPS FOR THIS VHOST
@@ -114,7 +94,7 @@ define vb_apache2::vhost ( $priority='', $homeuser='', $phpgroupname='', $groupi
     file { "/var/www/${name}/public" :
 		 ensure => "directory",
 		 owner => 'root',
-		 group => $phpgroupname,
+		 group => $phpdevgroupid,
          mode => '0775',
 		require => File["/var/www/${name}"],
 	}
@@ -124,7 +104,7 @@ define vb_apache2::vhost ( $priority='', $homeuser='', $phpgroupname='', $groupi
     file { "/var/www/${name}/public/images" :
 		 ensure => "directory",
 		 owner => 'root',
-		 group => $phpgroupname,
+		 group => $phpdevgroupid,
          mode => '0775',
 		require => File["/var/www/${name}/public"],
 	}
@@ -134,7 +114,7 @@ define vb_apache2::vhost ( $priority='', $homeuser='', $phpgroupname='', $groupi
     file { "/var/www/${name}/public/styles" :
 		 ensure => "directory",
 		 owner => 'root',
-		 group => $phpgroupname,
+		 group => $phpdevgroupid,
          mode => '0775',
 		require => File["/var/www/${name}/public"],
 	}   
@@ -143,34 +123,34 @@ define vb_apache2::vhost ( $priority='', $homeuser='', $phpgroupname='', $groupi
     
     ## Developer directories for code are one directory level up
     
-    # PHP code for group developer 'phpdev'
+    # PHP main code for group developer
     
     file { "/var/www/${name}/code" :
 		 ensure => "directory",
 		 owner => 'root',
-		 group => $phpgroupname,
+		 group => $phpdevgroupid,
          mode => '0775',
 		require => File["/var/www/${name}"],
 	}
 	
-    # PHP include files for 'phpdev' group goes one directory below the code    
+    # PHP include files for developer group goes one directory below the code    
 
     file { "/var/www/${name}/code/includes" :
 		 ensure => "directory",
 		 owner => 'root',
-		 group => $phpgroupname,
+		 group => $phpdevgroupid,
          mode => '0775',
 		require => File["/var/www/${name}/code"],
 	}
     
 
     
-    # PHP STATIC data for application process (read), writable by group 'phpdev' 
+    # PHP STATIC data for application process (read), writable by developer group 
     
     file { "/var/www/${name}/static" :
 		 ensure => "directory",
 		 owner => 'root',
-		 group => $phpgroupname,
+		 group => $phpdevgroupid,
          mode => '0775',
 		require => File["/var/www/${name}"],
 	}
