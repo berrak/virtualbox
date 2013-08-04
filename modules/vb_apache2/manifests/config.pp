@@ -88,7 +88,7 @@ class vb_apache2::config {
          source => "puppet:///modules/vb_apache2/tux-toolbox.jpg",    
           owner => 'root',
           group => 'root',
-        require => File["/var/www/default/public/images],
+        require => File["/var/www/default/public/images"],
     }
     
     # Possible style sheets in /styles
