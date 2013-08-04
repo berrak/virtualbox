@@ -6,6 +6,8 @@
 ; PHP's initialization file, generally called php.ini, is responsible for
 ; configuring many of the aspects of PHP's behavior.
 
+; This is php.ini-production INI file.
+
 ; PHP attempts to find and load this configuration from a number of locations.
 ; The following is a summary of its search order:
 ; 1. SAPI module specific location.
@@ -83,7 +85,7 @@
 ; development version only in development environments as errors shown to
 ; application users can inadvertently leak otherwise secure information.
 
-; This is php.ini-production INI file.
+
 
 ;;;;;;;;;;;;;;;;;;;
 ; Quick Reference ;
@@ -212,7 +214,7 @@ engine = On
 ; http://php.net/short-open-tag
 short_open_tag = On
 
-; Allow ASP-style <% %> tags.
+; Allow ASP-style  tags.
 ; http://php.net/asp-tags
 asp_tags = Off
 

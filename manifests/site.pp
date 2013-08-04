@@ -62,24 +62,24 @@ node 'node-php.vbox.tld' inherits basenode {
     # Fix LXDE configuration file (bug)
     class { vb_lxde_fixconfig : homeuser => 'bekr' }
     
-    include vb_php5
+    class { vb_php5::config : inifile => 'development' }
     
     # Use apache2 prefork
     include vb_apache2
     
-    # Define a new Apache2 virtual host (public directory writable by group 'bekr')
+    # Define a new Apache2 virtual host (docroot directory writable by group 'bekr')
     vb_apache2::vhost { 'hudson.vbox.tld' :
             priority => '001',
        phpdevgroupid => 'bekr',
     }
     
-    # Define a new Apache2 virtual host (public directory writable by group 'bekr')
+    # Define a new Apache2 virtual host (docroot directory writable by group 'bekr')
     vb_apache2::vhost { 'powers.vbox.tld' :
             priority => '002',
        phpdevgroupid => 'bekr',
     }
     
-    # Manage /etc/hosts file, list ALL Apache VIRTUAL HOSTS here
+    # Manage /etc/hosts file. List ALL Apache VIRTUAL HOSTS here
     class { vb_hosts::config : apache_virtual_host => [ "www.vbox.tld", "hudson.vbox.tld", "powers.vbox.tld" ] }    
 
 }
