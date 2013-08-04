@@ -119,28 +119,15 @@ define vb_apache2::vhost ( $priority='', $phpdevgroupid='', $urlalias='', $alias
 		require => File["/var/www/${name}/public"],
 	}   
     
-    
-    
-    ## Developer directories for code are one directory level up
-    
-    # PHP main code for group developer
-    
-    file { "/var/www/${name}/code" :
+	
+    # PHP include files for developer group goes one directory level up   
+
+    file { "/var/www/${name}/includes" :
 		 ensure => "directory",
 		 owner => 'root',
 		 group => $phpdevgroupid,
          mode => '0775',
 		require => File["/var/www/${name}"],
-	}
-	
-    # PHP include files for developer group goes one directory below the code    
-
-    file { "/var/www/${name}/code/includes" :
-		 ensure => "directory",
-		 owner => 'root',
-		 group => $phpdevgroupid,
-         mode => '0775',
-		require => File["/var/www/${name}/code"],
 	}
     
 
