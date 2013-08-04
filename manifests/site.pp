@@ -73,11 +73,11 @@ node 'node-php.vbox.tld' inherits basenode {
        phpdevgroupid => 'bekr',
     }
     
-
-
-
-    
-    
+    # Define a new Apache2 virtual host (public directory writable by group 'bekr')
+    vb_apache2::vhost { 'powers.vbox.tld' :
+            priority => '002',
+       phpdevgroupid => 'bekr',
+    }
     
     # Manage /etc/hosts file, also for any Apache virtual hosts
     class { vb_hosts::config : apache_virtual_host => [ "www.vbox.tld", "hudson.vbox.tld" ] }    
