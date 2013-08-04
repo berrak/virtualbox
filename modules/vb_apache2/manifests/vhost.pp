@@ -119,9 +119,9 @@ define vb_apache2::vhost ( $priority='', $homeuser='', $phpgroupname='', $groupi
 		require => File["/var/www/${name}"],
 	}
     
-    # STATIC directory for images
+    # IMAGES directory for images
     
-    file { "/var/www/${name}/public/static" :
+    file { "/var/www/${name}/public/images" :
 		 ensure => "directory",
 		 owner => 'root',
 		 group => $phpgroupname,
@@ -129,7 +129,7 @@ define vb_apache2::vhost ( $priority='', $homeuser='', $phpgroupname='', $groupi
 		require => File["/var/www/${name}/public"],
 	}
     
-    # STATIC directory for stylesheets
+    # STYLES directory for stylesheets
     
     file { "/var/www/${name}/public/styles" :
 		 ensure => "directory",
@@ -145,7 +145,7 @@ define vb_apache2::vhost ( $priority='', $homeuser='', $phpgroupname='', $groupi
     
     # PHP code for group developer 'phpdev'
     
-    file { "/var/www/${name}/rwcode" :
+    file { "/var/www/${name}/code" :
 		 ensure => "directory",
 		 owner => 'root',
 		 group => $phpgroupname,
@@ -153,21 +153,21 @@ define vb_apache2::vhost ( $priority='', $homeuser='', $phpgroupname='', $groupi
 		require => File["/var/www/${name}"],
 	}
 	
-    # PHP include files for 'phpdev' group goes one directory below the rwcode    
+    # PHP include files for 'phpdev' group goes one directory below the code    
 
-    file { "/var/www/${name}/rwcode/includes" :
+    file { "/var/www/${name}/code/includes" :
 		 ensure => "directory",
 		 owner => 'root',
 		 group => $phpgroupname,
          mode => '0775',
-		require => File["/var/www/${name}/rwcode"],
+		require => File["/var/www/${name}/code"],
 	}
     
 
     
-    # PHP INDATA data for app to process (read), writable by group 'phpdev' 
+    # PHP STATIC data for application process (read), writable by group 'phpdev' 
     
-    file { "/var/www/${name}/input" :
+    file { "/var/www/${name}/static" :
 		 ensure => "directory",
 		 owner => 'root',
 		 group => $phpgroupname,
@@ -175,9 +175,9 @@ define vb_apache2::vhost ( $priority='', $homeuser='', $phpgroupname='', $groupi
 		require => File["/var/www/${name}"],
 	}
 
-    # PHP application OUTDATA (writable by php app i.e. www-data)
+    # PHP application DATA (read-writable by php app i.e. www-data)
     
-    file { "/var/www/${name}/output" :
+    file { "/var/www/${name}/data" :
 		 ensure => "directory",
 		 owner => 'www-data',
 		 group => 'root',
