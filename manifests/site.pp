@@ -79,8 +79,8 @@ node 'node-php.vbox.tld' inherits basenode {
        phpdevgroupid => 'bekr',
     }
     
-    # Manage /etc/hosts file, also for any Apache virtual hosts
-    class { vb_hosts::config : apache_virtual_host => [ "www.vbox.tld", "hudson.vbox.tld" ] }    
+    # Manage /etc/hosts file, list ALL Apache VIRTUAL HOSTS here
+    class { vb_hosts::config : apache_virtual_host => [ "www.vbox.tld", "hudson.vbox.tld", "powers.vbox.tld" ] }    
 
 }
 
