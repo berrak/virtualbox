@@ -3,6 +3,8 @@
 #
 class vb_php5::config ($inifile='') {
 
+    include vb_php5
+
     case $inifile {
     
         'production':  {
