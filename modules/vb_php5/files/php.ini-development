@@ -704,7 +704,7 @@ default_mimetype = "text/html"
 ;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ; UNIX: "/path1:/path2"
-;include_path = ".:/php/includes"
+include_path = "../includes"
 ;
 ; Windows: "\path1;\path2"
 ;include_path = ".;c:\php\includes"
