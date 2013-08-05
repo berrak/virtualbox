@@ -7,7 +7,7 @@ class vb_php5::install {
     
     package { ["php5", "php5-gd" ]:
         ensure => installed,
-        requires => Class["vb_apache2"],
+        require => Class["vb_apache2"],
     }
 
 
