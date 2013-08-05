@@ -4,6 +4,7 @@
 class vb_php5::config ($inifile='') {
 
     include vb_php5
+    include vb_apache2
 
     case $inifile {
     
@@ -14,6 +15,7 @@ class vb_php5::config ($inifile='') {
                   owner => 'root',
                   group => 'root',
                 require => Class["vb_php5::install"],
+                 notify => Service["apache2"],
             }
             
         }
@@ -25,6 +27,7 @@ class vb_php5::config ($inifile='') {
                   owner => 'root',
                   group => 'root',
                 require => Class["vb_php5::install"],
+                 notify => Service["apache2"],
             }
             
         }
