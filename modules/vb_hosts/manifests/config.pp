@@ -1,7 +1,7 @@
 ##
 ## This class manage the settings in hosts file
 ##
-class vb_hosts::config ( $apache_virtual_host = undef ) {
+class vb_hosts::config ( $apache_virtual_host = '' ) {
 
 	$myaddress = $::ipaddress
 	$myhostname = $::hostname
@@ -9,13 +9,10 @@ class vb_hosts::config ( $apache_virtual_host = undef ) {
 		
 	# copy the array
 	
-	if $apache_virtual_host != undef {
+	if $apache_virtual_host != '' {
         $vhostfqdn = $apache_virtual_host
-    } else
-	{
-	    $vhostfqdn = ''
-		$apache_virtual_host = ''
-	}
+    }
+
 
     file { "/etc/hosts" :
         content => template( "vb_hosts/hosts.erb" ),
