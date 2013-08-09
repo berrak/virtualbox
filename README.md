@@ -19,29 +19,31 @@ Here we set up safer desktop for every day use, and bare server:
     * Web desktop (web) environment, hardened for a safer web experience [3]
     * Hardened server setup (hard)
     
-In the site manifest are a few examples of development environments:
+In the site manifest find a few examples of development environments:
 
     * Perl web development (mojo) exploring Mojolicious web framework [4]
     * PHP development environment (php) exploring php5/MySQL etc.
     * Ruby development environment (ruby)
     * Python development environment (python)
+    * Cobol development (cobol)
+    * Java och javascript development (java)
     
 Here, each VM use Debians' images (debian-7.1.0-amd64-lxde-CD-1.iso or the net-
-installer, debian-7.1.0-amd64-netinst.iso) [5]. 
+installer debian-7.1.0-amd64-netinst.iso) [5]. 
 
 Above examples will evolve over time and are far from complete. Feel free
 to suggest contributions. To install the latest VirtualBox, see reference [6].
 Oracles' Debian installer works nicely, as expected after adding their
 repository to the */etc/apt/sources.list* file.
 
-To manually update each VM simply run on the cli:
+When finished with this README/setup, keep each VM updated with:
 
     # cd /etc/puppet
     # git pull
     # puppet.exec
     
 The last shell script is just a wrapper around the *puppet agent* command.
-Naturally, these simple steps can be automated with a cron job. 
+Naturally, these steps can be automated with a cron job. 
 
 
 ### Version information
@@ -53,15 +55,15 @@ Puppet 2.7.18-5
 Oracle: virtualbox-4.2.16 
 
 
-### Setting up each VM with NAT (not bridged networking)
+### Set up each VM with NAT (not bridged networking)
 
 If not already done so, install a VM with the VirtualBox wizard (use *New*
 button) and use NAT (which is the default networking setup).
 
 Once the Debian installer starts, and with the site manifest as is, use 'web',
-'mojo', 'php', 'hard', 'ruby' and 'python' as the *host name*, and here I use
-'vbox.tld' as the VM *domain name*. Note that each VM domain *must* use the same
-domain name to deploy one universal site manifest for all VM's.
+'mojo', 'php', 'hard', 'ruby', 'python'. 'cobol' and 'java' as the *host name*,
+and here I use 'vbox.tld' as the VM *domain name*. Note that each VM domain
+*must* use the same domain name to deploy one site manifest for all VM's.
 
 Install *openssh-server* on each guest VM to provide secure access from host.
 There is no requirement to install Oracles' guest additions to share files.
@@ -178,7 +180,7 @@ Time to setup the *node-mojo*. Install Puppet agent with:
     
 Create a node certificate and run 'node-mojo' manifests:
 
-    # puppet agent --server=mojo.vbox.tld --onetime --no-daemonize --verbose --waitforcert 60
+    # puppet agent --onetime --no-daemonize --verbose --waitforcert 60
     
 In the second root terminal (hit the 'host-key', which usully is 'right-ctrl' key + F1),
 login to view and sign the request from *node-mojo* with:
@@ -231,7 +233,8 @@ files from guests on a separate partition with 'nodev,noexec,nosuid' options:
 ### Finally update all VM's to be managed by Puppet
 
 For each VM, repeat above steps for each VM, i.e. *web*, *php*, *hard*, *ruby*
-and *python*.
+*python*, *cobol* and *java*, but give each VM a unique port number in previous
+step.
 
 
 ### TODO
