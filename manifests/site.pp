@@ -122,3 +122,47 @@ node 'node-python.vbox.tld' inherits basenode {
     vb_python_pylint::config { 'bekr' : }
 
 }
+
+
+## Purpose is to work with COBOL tutorials
+
+node 'node-cobol.vbox.tld' inherits basenode {
+    
+    # Manage /etc/hosts file
+    include vb_hosts
+    
+    # Packages without any special configurations
+    class { vb_install_debs : debs => [ "eclipse", "open-cobol" ] }
+    
+    # Replace 'bekr' with your existing username
+    vb_user_bashrc::config { 'bekr' : }
+    
+    # Fix LXDE configuration file (bug)
+    class { vb_lxde_fixconfig : homeuser => 'bekr' }
+
+}
+
+
+## Purpose is to work with java and javascript development
+
+node 'node-java.vbox.tld' inherits basenode {
+    
+    # Manage /etc/hosts file
+    include vb_hosts
+    
+    # Packages without any special configurations
+    class { vb_install_debs : debs => [ "eclipse" ] }
+    
+    # Replace 'bekr' with your existing username
+    vb_user_bashrc::config { 'bekr' : }
+    
+    # Fix LXDE configuration file (bug)
+    class { vb_lxde_fixconfig : homeuser => 'bekr' }
+
+}
+
+
+
+
+
+
