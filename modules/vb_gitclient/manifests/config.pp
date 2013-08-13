@@ -41,7 +41,7 @@ define vb_gitclient::config ( $mygitname= '', $mygitemail='' ) {
 	
 	file { "/home/${name}/bashrc.d/git.rc" :
 		ensure => present,
-		source => "vb:///modules/vb_gitclient/git.rc",
+		source => "puppet:///modules/vb_gitclient/git.rc",
 		 owner => $name,
 		 group => $name,
 	}
