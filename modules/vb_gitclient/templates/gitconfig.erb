@@ -1,0 +1,20 @@
+[user]
+	 name = <%= mygitname %>
+	email = <%= mygitemail %>
+[color]
+	 ui = auto
+[core]
+	editor = <%= mygiteditor %>
+[alias]
+	com = commit
+	sta = status
+	sw2 = checkout
+	nbr = checkout -b
+    vhi = log --graph --pretty=format:'<%= mylogformat %>' --abbrev-commit --date=relative
+	vbr = branch -a
+	vre = remote -v
+	vta = show
+	vdi = show
+	mer = merge --no-ff
+	mef = merge --ff-only
+
