@@ -113,7 +113,7 @@ node 'node-python.vbox.tld' inherits basenode {
     vb_gitclient::config { 'bekr' : mygitname => 'debinix', mygitemail => 'bertil.kronlund@gmail.com' }
     
     # Packages without any special configurations
-    class { vb_install_debs : debs => [ "curl", "evince", "wdiff", "pyflakes" ] }
+    class { vb_install_debs : debs => [ "curl", "evince", "wdiff", "pyflakes", "python-sphinx", "sphinx-doc" ] }
     
     # Replace 'bekr' with your existing username
     vb_user_bashrc::config { 'bekr' : }

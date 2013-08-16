@@ -74,7 +74,7 @@ define vb_user_bashrc::config {
 	    refreshonly => true,
 		}
 		
-		# perl snippet file, sourced at login
+		# perl rc file, sourced at login
 		
 	    file { "/home/${name}/bashrc.d/perl.rc":
 			source => "puppet:///modules/vb_user_bashrc/perl.rc",
@@ -83,6 +83,17 @@ define vb_user_bashrc::config {
 			  mode => '0644',
 		   require => File["/home/${name}/bashrc.d/${name}"],
 	   	}
+
+		# python rc file, sourced at login
+		
+		file { "/home/${name}/bashrc.d/python.rc":
+			source => "puppet:///modules/vb_user_bashrc/python.rc",
+			 owner => "${name}",
+			 group => "${name}",
+			  mode => '0644',
+		   require => File["/home/${name}/bashrc.d/${name}"],
+	   	}
+
 
 	
 	} else {
