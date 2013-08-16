@@ -10,5 +10,5 @@
 # For Python packages/modules and current project
 
 # needs update to were the modules really are -- this is the parent directory
-export PYTHONPATH=$PYTHONPATH:/home/bekr/pythonwork
+export PYTHONPATH=/home/bekr/pythonwork
 
