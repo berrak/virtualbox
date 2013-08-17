@@ -113,7 +113,7 @@ node 'node-python.vbox.tld' inherits basenode {
     vb_gitclient::config { 'bekr' : mygitname => 'debinix', mygitemail => 'bertil.kronlund@gmail.com' }
     
     # Packages without any special configurations
-    class { vb_install_debs : debs => [ "curl", "evince", "wdiff", "pyflakes", "python-sphinx", "sphinx-doc", "eclipse" ] }
+    class { vb_install_debs : debs => [ "curl", "evince", "wdiff", "pyflakes", "python-sphinx", "sphinx-doc" ] }
     
     # Replace 'bekr' with your existing username
     vb_user_bashrc::config { 'bekr' : }
@@ -153,7 +153,7 @@ node 'node-java.vbox.tld' inherits basenode {
     # Manage /etc/hosts file
     include vb_hosts
     
-    # Packages without any special configurations
+    # Packages without any special configurations (installs eclipse 3.8)
     class { vb_install_debs : debs => [ "eclipse" ] }
     
     # Replace 'bekr' with your existing username
