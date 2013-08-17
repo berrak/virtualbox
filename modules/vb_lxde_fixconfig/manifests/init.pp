@@ -12,19 +12,33 @@ class vb_lxde_fixconfig ( $homeuser ='' ) {
         fail("FAIL: No user ($homeuser) given as argument.")
     }
     
-    file { "/home/${homeuser}/.config/lxterminal":
+    # These changes make code more robust in case ecec on server without GUI.
+    # Required - for below fix, make sure dirs exists (lxde config directory)
+
+    file { "/home/${homeuser}/.config":
         ensure => "directory",
          owner => "${homeuser}",
          group => "${homeuser}",
-          mode => '0755',
     }
-        
-    # Change ownership of LXDE configuration file.
-        
+    
+    # Here fix bug in lxterminal, such that user can't make the
+    # configuration persistent (Debian sets this as root ownership).
+    
+    file { "/home/${homeuser}/.config/lxterminal":
+         ensure => "directory",
+          owner => "${homeuser}",
+          group => "${homeuser}",
+           mode => '0755',
+        require => File["/home/${homeuser}/.config"],
+    }
+    
+    # Fix bug only if config file exists (i.e. skip on servers)
+    
     exec { "/home/${homeuser}/.config/lxterminal/lxterminal.conf":
-            command => "/bin/chown ${homeuser}:${homeuser} /home/${homeuser}/.config/lxterminal/lxterminal.conf",
-          subscribe => File["/home/${homeuser}/.config/lxterminal"],
-        refreshonly => true,
+             command => "/bin/chown ${homeuser}:${homeuser} /home/${homeuser}/.config/lxterminal/lxterminal.conf",
+              onlyif => "/usr/bin/test -x /home/${homeuser}/.config/lxterminal/lxterminal.conf",
+             require => File["/home/${homeuser}/.config/lxterminal"],
     }
+
 
 }
