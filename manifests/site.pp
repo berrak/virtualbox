@@ -92,7 +92,7 @@ node 'node-ruby.vbox.tld' inherits basenode {
     include vb_hosts
     
     # Packages without any special configurations
-    class { vb_install_debs : debs => [ "curl", "evince", "wdiff" ] }
+    class { vb_install_debs : debs => [ "rubygems", "ruby-json", "ruby-net-http-persistent", "curl", "evince", "wdiff" ] }
     
     # Replace 'bekr' with your existing username
     vb_user_bashrc::config { 'bekr' : }
