@@ -135,7 +135,7 @@ node 'node-cobol.vbox.tld' inherits basenode {
     include vb_hosts
     
     # Packages without any special configurations
-    class { vb_install_debs : debs => [ "eclipse", "open-cobol" ] }
+    class { vb_install_debs : debs => [ "eclipse", "open-cobol", "rubygems", "ruby-json", "ruby-net-http-persistent" ] }
     
     # Replace 'bekr' with your existing username
     vb_user_bashrc::config { 'bekr' : }
