@@ -8,8 +8,8 @@ rundir=/var/run/puppet
 factpath=$vardir/lib/facter
 ssldir=/var/lib/puppet/ssl
 
-server = <%= vhostname %>.<%= vdomain %>
+server= <%= vhostname %>.<%= vdomain %>
 
 [agent]
-certname = node-<%= vhostname %>.<%= vdomain %>
+certname= node-<%= vhostname %>.<%= vdomain %>
 

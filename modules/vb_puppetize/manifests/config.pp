@@ -11,12 +11,12 @@ class vb_puppetize::config {
     $vdomain = $::domain
     
     file { "/etc/puppet/puppet.conf" :
-        ensure => present,
-       content => template( "vb_puppetize/puppet.conf.erb" ),
-        owner => 'root',
-        group => 'root',
+         ensure => present,
+        content => template( "vb_puppetize/puppet.conf.erb" ),
+          owner => 'root',
+          group => 'root',
         require => Class["vb_puppetize::install"],
-        notify => Class["vb_puppetize::service"],
+         notify => Class["vb_puppetize::service"],
     }
     
     file { "/etc/puppet/auth.conf" :
