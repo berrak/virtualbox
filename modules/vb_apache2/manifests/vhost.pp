@@ -89,7 +89,7 @@ define vb_apache2::vhost ( $priority='', $devgroupid='', $urlalias='', $aliastgt
     ## THIS SECTION SETUP A DEFAULT DIRECTORY STRUCTURE AND FILE OWNERSHIPS FOR THIS VHOST
     #
     
-    # PUBLIC directory (document-root) is writable by developer group 'phpdev' to be able to update files
+    # PUBLIC directory (document-root) is writable by developer group to be able to update files
 	
     file { "/var/www/${name}/public" :
 		 ensure => "directory",
@@ -99,7 +99,17 @@ define vb_apache2::vhost ( $priority='', $devgroupid='', $urlalias='', $aliastgt
 		require => File["/var/www/${name}"],
 	}
     
-    # IMAGES directory for images
+    # CGI directory (maybe not required)
+    
+    file { "/var/www/${name}/public/cgi-bin" :
+		 ensure => "directory",
+		 owner => 'root',
+		 group => $devgroupid,
+         mode => '0775',
+		require => File["/var/www/${name}/public"],
+	}    
+    
+    # IMAGES directory (e.g. for PHP) for images
     
     file { "/var/www/${name}/public/images" :
 		 ensure => "directory",
@@ -109,7 +119,7 @@ define vb_apache2::vhost ( $priority='', $devgroupid='', $urlalias='', $aliastgt
 		require => File["/var/www/${name}/public"],
 	}
     
-    # STYLES directory for stylesheets
+    # STYLES directory (e.g. for PHP) for stylesheets
     
     file { "/var/www/${name}/public/styles" :
 		 ensure => "directory",
@@ -120,7 +130,7 @@ define vb_apache2::vhost ( $priority='', $devgroupid='', $urlalias='', $aliastgt
 	}   
     
 	
-    # PHP include files for developer group goes one directory level up   
+    # Include files (e.g. for PHP) for developer group goes one directory level up   
 
     file { "/var/www/${name}/includes" :
 		 ensure => "directory",
@@ -132,7 +142,7 @@ define vb_apache2::vhost ( $priority='', $devgroupid='', $urlalias='', $aliastgt
     
 
     
-    # PHP STATIC data for application process (read), writable by developer group 
+    # STATIC data (e.g. for PHP) for application process (read), writable by developer group 
     
     file { "/var/www/${name}/static" :
 		 ensure => "directory",
@@ -142,7 +152,7 @@ define vb_apache2::vhost ( $priority='', $devgroupid='', $urlalias='', $aliastgt
 		require => File["/var/www/${name}"],
 	}
 
-    # PHP application DATA (read-writable by php app i.e. www-data)
+    # Application DATA (read-writable by the eg. a PHP application i.e. www-data)
     
     file { "/var/www/${name}/data" :
 		 ensure => "directory",

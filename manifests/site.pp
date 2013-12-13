@@ -89,7 +89,7 @@ node 'node-php.vbox.tld' inherits basenode {
        devgroupid => 'bekr',
     }
     
-    # Manage /etc/hosts file. List ALL Apache VIRTUAL HOSTS here
+    # Manage /etc/hosts file. List ALL Apache VIRTUAL HOSTS here, , www.vbox.tld is default.
     class { vb_hosts::config : apache_virtual_host => [ "www.vbox.tld", "hudson.vbox.tld", "powers.vbox.tld" ] }    
 
 }
@@ -137,7 +137,7 @@ node 'node-python.vbox.tld' inherits basenode {
 }
 
 
-## Purpose is to work with COBOL tutorials
+## Purpose is to work with COBOL development
 
 node 'node-cobol.vbox.tld' inherits basenode {
     
@@ -149,6 +149,19 @@ node 'node-cobol.vbox.tld' inherits basenode {
     
     # Packages without any special configurations
     class { vb_install_debs : debs => [ "eclipse", "open-cobol", "rubygems", "ruby-json", "ruby-net-http-persistent" ] }
+    
+    # Use apache2 prefork
+    include vb_apache2
+    
+    # Define a new Apache2 virtual host (docroot directory writable by group 'bekr')
+    vb_apache2::vhost { 'jensen.vbox.tld' :
+            priority => '001',
+       devgroupid => 'bekr',
+    }
+    
+    # Manage /etc/hosts file. List ALL Apache VIRTUAL HOSTS here, www.vbox.tld is default.
+    class { vb_hosts::config : apache_virtual_host => [ "www.vbox.tld", "jensen.vbox.tld" ] }       
+    
     
     # Replace 'bekr' with your existing username
     vb_user_bashrc::config { 'bekr' : }
