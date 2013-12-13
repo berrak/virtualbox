@@ -90,7 +90,7 @@ node 'node-php.vbox.tld' inherits basenode {
     }
     
     # Define content in /etc/hosts file. List ALL Apache VIRTUAL HOSTS here, declare always default www.vbox.tld.
-    vb_hosts::config { apache_virtual_host => [ "www.vbox.tld", "hudson.vbox.tld", "powers.vbox.tld" ] }    
+    vb_hosts::config { 'bekr' : apache_virtual_host => [ "www.vbox.tld", "hudson.vbox.tld", "powers.vbox.tld" ] }    
 
 }
 
@@ -160,7 +160,7 @@ node 'node-cobol.vbox.tld' inherits basenode {
     }
     
     # Manage /etc/hosts file. List ALL Apache VIRTUAL HOSTS here, declare always default www.vbox.tld.
-    vb_hosts::config { apache_virtual_host => [ "www.vbox.tld", "jensen.vbox.tld"  ] }      
+    vb_hosts::config { 'bekr' : apache_virtual_host => [ "www.vbox.tld", "jensen.vbox.tld"  ] }      
     
     
     # Replace 'bekr' with your existing username
