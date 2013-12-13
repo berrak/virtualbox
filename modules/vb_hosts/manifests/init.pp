@@ -1,8 +1,8 @@
 ##
-## This define manage the settings in hosts file
+## This class manage the settings in hosts file
 ##
 class vb_hosts {
 
-    include vb_hosts::config
+    # nothing is required here since this module only contains one define in vb_hosts::config
 	
 }
