@@ -5,10 +5,10 @@
 #
 #     vb_apache2::vhost { 'hudson.vbox.tld' :
 #        priority => '001',
-#        phpdevgroupid => 'bekr',
+#        devgroupid => 'bekr',
 #     } 
 #
-define vb_apache2::vhost ( $priority='', $phpdevgroupid='', $urlalias='', $aliastgtpath='') {
+define vb_apache2::vhost ( $priority='', $devgroupid='', $urlalias='', $aliastgtpath='') {
 
     
     # Add a new virtual host fqdn to /etc/hosts for name resolution. This
@@ -16,8 +16,8 @@ define vb_apache2::vhost ( $priority='', $phpdevgroupid='', $urlalias='', $alias
     
     include vb_apache2
     
-    if $phpdevgroupid == '' {
-        fail("FAIL: Missing group name for developer work under /var/www-directory tree ($phpdevgroupid).")
+    if $devgroupid == '' {
+        fail("FAIL: Missing group name for developer work under /var/www-directory tree ($devgroupid).")
     }
 
     if $priority == '' {
@@ -94,7 +94,7 @@ define vb_apache2::vhost ( $priority='', $phpdevgroupid='', $urlalias='', $alias
     file { "/var/www/${name}/public" :
 		 ensure => "directory",
 		 owner => 'root',
-		 group => $phpdevgroupid,
+		 group => $devgroupid,
          mode => '0775',
 		require => File["/var/www/${name}"],
 	}
@@ -104,7 +104,7 @@ define vb_apache2::vhost ( $priority='', $phpdevgroupid='', $urlalias='', $alias
     file { "/var/www/${name}/public/images" :
 		 ensure => "directory",
 		 owner => 'root',
-		 group => $phpdevgroupid,
+		 group => $devgroupid,
          mode => '0775',
 		require => File["/var/www/${name}/public"],
 	}
@@ -114,7 +114,7 @@ define vb_apache2::vhost ( $priority='', $phpdevgroupid='', $urlalias='', $alias
     file { "/var/www/${name}/public/styles" :
 		 ensure => "directory",
 		 owner => 'root',
-		 group => $phpdevgroupid,
+		 group => $devgroupid,
          mode => '0775',
 		require => File["/var/www/${name}/public"],
 	}   
@@ -125,7 +125,7 @@ define vb_apache2::vhost ( $priority='', $phpdevgroupid='', $urlalias='', $alias
     file { "/var/www/${name}/includes" :
 		 ensure => "directory",
 		 owner => 'root',
-		 group => $phpdevgroupid,
+		 group => $devgroupid,
          mode => '0775',
 		require => File["/var/www/${name}"],
 	}
@@ -137,7 +137,7 @@ define vb_apache2::vhost ( $priority='', $phpdevgroupid='', $urlalias='', $alias
     file { "/var/www/${name}/static" :
 		 ensure => "directory",
 		 owner => 'root',
-		 group => $phpdevgroupid,
+		 group => $devgroupid,
          mode => '0775',
 		require => File["/var/www/${name}"],
 	}
