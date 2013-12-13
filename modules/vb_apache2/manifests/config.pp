@@ -42,13 +42,22 @@ class vb_apache2::config {
 	    notify => Service["apache2"],
     }
     
+	## Ensure that /var/www really exists!
+	
+	file { "/var/www":
+		ensure => "directory",
+		owner => 'root',
+		group => 'root',
+	}	
+	
     
 	# Create the directory structure for the default site
     
 	file { "/var/www/default":
-		ensure => "directory",
-		owner => 'root',
-		group => 'root',
+		 ensure => "directory",
+		  owner => 'root',
+		  group => 'root',
+		require => File["/var/www"],		
 	}
     
 	# Doc root
