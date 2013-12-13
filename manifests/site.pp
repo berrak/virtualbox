@@ -154,13 +154,13 @@ node 'node-cobol.vbox.tld' inherits basenode {
     include vb_apache2
     
     # Define a new Apache2 virtual host (docroot directory writable by group 'bekr')
-    vb_apache2::vhost { 'jensen.vbox.tld' :
+    vb_apache2::vhost { 'jensen.cobol.tld' :
             priority => '001',
        devgroupid => 'bekr',
     }
     
-    # Manage /etc/hosts file. List ALL Apache VIRTUAL HOSTS here, www.vbox.tld is default.
-    class { vb_hosts::config : apache_virtual_host => [ "www.vbox.tld", "jensen.vbox.tld" ] }       
+    # Manage /etc/hosts file. List ALL Apache VIRTUAL HOSTS here, declare www.cobol.tld, can't use same domain if used in this file.
+    class { vb_hosts::config : apache_virtual_host => [ "www.cobol.tld", "jensen.cobol.tld" ] }       
     
     
     # Replace 'bekr' with your existing username
