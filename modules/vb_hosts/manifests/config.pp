@@ -1,7 +1,13 @@
 ##
-## This class manage the settings in hosts file
+## This define manage the settings in hosts file
+# Sample usage:
+#
+#     vb_hosts::config {
+#        apache_virtual_host => [ "www.vbox.tld", "jensen.vbox.tld"  ]
+#     }  
 ##
-class vb_hosts::config ( $apache_virtual_host = '' ) {
+##
+define vb_hosts::config ( $apache_virtual_host = '' ) {
 
 	$myaddress = $::ipaddress
 	$myhostname = $::hostname
