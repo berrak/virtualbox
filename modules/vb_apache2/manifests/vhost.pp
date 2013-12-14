@@ -54,6 +54,7 @@ define vb_apache2::vhost ( $priority='', $devgroupid='', $urlalias='', $aliastgt
 		ensure => "directory",
 		owner => 'root',
 		group => 'root',
+         mode => '0775',        
 	}
     
     # public directory is writable by developer group to be able to update files

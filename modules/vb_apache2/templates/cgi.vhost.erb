@@ -20,16 +20,16 @@
 	</Directory>
 	
 	
-	# Only access at public level cgi-bin 
+	# Alow general access at public level and below
 	
-	<Directory /var/www/<%= name %>/public/cgi-bin>
-	
-		Options +ExecCGI
-		AddHandler cgi-script .cgi
-		AllowOverride None
+	<Directory /var/www/<%= name %>/public>
 		Allow from all
 		Order Allow,deny
-
+	</Directory>	
+	
+	<Directory /var/www/<%= name %>/public/cgi-bin>
+		Options +ExecCGI
+		AddHandler cgi-script .cgi
 	</Directory>
 	
 	# set the preference to use index.cgi, and if cgi is not working use the index-html
