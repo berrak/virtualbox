@@ -76,7 +76,7 @@ define vb_apache2::vhost ( $priority='', $devgroupid='', $urlalias='', $aliastgt
         'cgi': {
             
             file { "/etc/apache2/sites-available/${name}":
-                content =>  template('vb_apache2/vhost.erb'),
+                content =>  template('vb_apache2/cgi.vhost.erb'),
                 owner => 'root',
                 group => 'root',       
                 require => Class["vb_apache2::install"],
