@@ -99,6 +99,7 @@ define vb_apache2::vhost ( $priority='', $devgroupid='', $urlalias='', $aliastgt
                 source => "puppet:///modules/vb_apache2/newvhost.index.cgi",    
                 owner => 'root',
                 group => 'root',
+                mode => '0755',
                 require => File["/var/www/${name}/public/cgi-bin"],
             }
             
