@@ -94,7 +94,7 @@ define vb_apache2::vhost ( $priority='', $devgroupid='', $urlalias='', $aliastgt
             }                
             
             
-            # vhost site initial index.cgi (primary) and index.html (secondary) files and favicon
+            # vhost site index.cgi file and favicon
     
             file { "/var/www/${name}/public/cgi-bin/index.cgi":
                 source => "puppet:///modules/vb_apache2/newvhost.index.cgi",    
@@ -102,17 +102,7 @@ define vb_apache2::vhost ( $priority='', $devgroupid='', $urlalias='', $aliastgt
                 group => 'root',
                 mode => '0755',
                 require => File["/var/www/${name}/public/cgi-bin"],
-            }
-            
-            # the html file is the backup index if not the cgi is working, or turned off.
-            
-            file { "/var/www/${name}/public/cgi-bin/index.html":
-                source => "puppet:///modules/vb_apache2/newvhost.index.html",    
-                owner => 'root',
-                group => 'root',
-                require => File["/var/www/${name}/public/cgi-bin"],
-            }            
-            
+            }   
     
             file { "/var/www/${name}/public/cgi-bin/favicon.ico":
                 source => "puppet:///modules/vb_apache2/tux-favicon.ico",    
