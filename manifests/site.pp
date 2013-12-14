@@ -87,6 +87,7 @@ node 'node-php.vbox.tld' inherits basenode {
     vb_apache2::vhost { 'powers.vbox.tld' :
             priority => '002',
        devgroupid => 'bekr',
+       scriptlanguage => 'php',
     }
     
     # Define content in /etc/hosts file. List ALL Apache VIRTUAL HOSTS here, declare always default www.vbox.tld.
@@ -154,9 +155,10 @@ node 'node-cobol.vbox.tld' inherits basenode {
     include vb_apache2
     
     # Define a new Apache2 virtual host (docroot directory writable by group 'bekr')
-    vb_apache2::vhost { 'jensen.cobol.tld' :
+    vb_apache2::vhost { 'jensen.vbox.tld' :
             priority => '001',
-       devgroupid => 'bekr',
+          devgroupid => 'bekr',
+       scriptlanguage => 'cgi',
     }
     
     # Manage /etc/hosts file. List ALL Apache VIRTUAL HOSTS here, declare always default www.vbox.tld.

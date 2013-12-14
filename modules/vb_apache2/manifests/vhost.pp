@@ -8,7 +8,7 @@
 #        devgroupid => 'bekr',
 #     } 
 #
-define vb_apache2::vhost ( $priority='', $devgroupid='', $urlalias='', $aliastgtpath='') {
+define vb_apache2::vhost ( $priority='', $devgroupid='', $urlalias='', $aliastgtpath='', $scriptlanguage='') {
 
     
     # Add a new virtual host fqdn to /etc/hosts for name resolution. This
@@ -23,6 +23,10 @@ define vb_apache2::vhost ( $priority='', $devgroupid='', $urlalias='', $aliastgt
     if $priority == '' {
         fail("FAIL: Missing required parameter priority ($priority).")
     }
+    
+    if $scriptlanguage == '' {
+        fail("FAIL: Missing required scriptlanguage parameter ($scriptlanguage).")
+    }    
     
     
     if $priority == '000' {
@@ -44,23 +48,7 @@ define vb_apache2::vhost ( $priority='', $devgroupid='', $urlalias='', $aliastgt
     }
     
     
-    file { "/etc/apache2/sites-available/${name}":
-        content =>  template('vb_apache2/vhost.erb'),
-          owner => 'root',
-          group => 'root',       
-        require => Class["vb_apache2::install"],
-         notify => Service["apache2"], 
-    }
-    
-    ## Enable the vhost site
-    
-    file { "/etc/apache2/sites-enabled/${priority}-${name}":
-        ensure => 'link',
-        target => "/etc/apache2/sites-available/${name}",
-       require => File["/etc/apache2/sites-available/${name}"],
-    }
-
-	# Create the initial directory for the vhost site
+	## Create the COMMON directory for this vhost site
     
 	file { "/var/www/${name}":
 		ensure => "directory",
@@ -68,28 +56,7 @@ define vb_apache2::vhost ( $priority='', $devgroupid='', $urlalias='', $aliastgt
 		group => 'root',
 	}
     
-    # vhost site initial index file and favicon
-    
-    file { "/var/www/${name}/public/index.html":
-         source => "puppet:///modules/vb_apache2/newvhost.index.html",    
-          owner => 'root',
-          group => 'root',
-        require => File["/var/www/${name}"],
-    }
-    
-    file { "/var/www/${name}/public/favicon.ico":
-         source => "puppet:///modules/vb_apache2/tux-favicon.ico",    
-          owner => 'root',
-          group => 'root',
-        require => File["/var/www/${name}"],
-    }    
-  
-  
-    #
-    ## THIS SECTION SETUP A DEFAULT DIRECTORY STRUCTURE AND FILE OWNERSHIPS FOR THIS VHOST
-    #
-    
-    # PUBLIC directory (document-root) is writable by developer group to be able to update files
+    # public directory is writable by developer group to be able to update files
 	
     file { "/var/www/${name}/public" :
 		 ensure => "directory",
@@ -97,68 +64,170 @@ define vb_apache2::vhost ( $priority='', $devgroupid='', $urlalias='', $aliastgt
 		 group => $devgroupid,
          mode => '0775',
 		require => File["/var/www/${name}"],
-	}
-    
-    # CGI directory (maybe not required)
-    
-    file { "/var/www/${name}/public/cgi-bin" :
-		 ensure => "directory",
-		 owner => 'root',
-		 group => $devgroupid,
-         mode => '0775',
-		require => File["/var/www/${name}/public"],
 	}    
     
-    # IMAGES directory (e.g. for PHP) for images
     
-    file { "/var/www/${name}/public/images" :
-		 ensure => "directory",
-		 owner => 'root',
-		 group => $devgroupid,
-         mode => '0775',
-		require => File["/var/www/${name}/public"],
-	}
+    ## Special vhost-configuration depending on (script)languages used
     
-    # STYLES directory (e.g. for PHP) for stylesheets
     
-    file { "/var/www/${name}/public/styles" :
-		 ensure => "directory",
-		 owner => 'root',
-		 group => $devgroupid,
-         mode => '0775',
-		require => File["/var/www/${name}/public"],
-	}   
+    case $scriptlanguage {
     
-	
-    # Include files (e.g. for PHP) for developer group goes one directory level up   
+        'cgi': {
+            
+            file { "/etc/apache2/sites-available/${name}":
+                content =>  template('vb_apache2/vhost.erb'),
+                owner => 'root',
+                group => 'root',       
+                require => Class["vb_apache2::install"],
+                notify => Service["apache2"],
+            }
+            
+            # CGI-BIN directory (i.e. the document root)
+    
+            file { "/var/www/${name}/public/cgi-bin" :
+                ensure => "directory",
+                owner => 'root',
+                group => $devgroupid,
+                mode => '0775',
+                require => File["/var/www/${name}/public"],
+            }                
+            
+            
+            # vhost site initial index.cgi (primary) and index.html (secondary) files and favicon
+    
+            file { "/var/www/${name}/public/cgi-bin/index.cgi":
+                source => "puppet:///modules/vb_apache2/newvhost.index.cgi",    
+                owner => 'root',
+                group => 'root',
+                require => File["/var/www/${name}/public/cgi-bin"],
+            }
+            
+            # the html file is the backup index if not the cgi is working, or turned off.
+            
+            file { "/var/www/${name}/public/cgi-bin/index.html":
+                source => "puppet:///modules/vb_apache2/newvhost.index.html",    
+                owner => 'root',
+                group => 'root',
+                require => File["/var/www/${name}/public/cgi-bin"],
+            }            
+            
+    
+            file { "/var/www/${name}/public/cgi-bin/favicon.ico":
+                source => "puppet:///modules/vb_apache2/tux-favicon.ico",    
+                owner => 'root',
+                group => 'root',
+                require => File["/var/www/${name}/public/cgi-bin"],
+            }                       
+            
+        }
+        
+        'php': {
+    
+            file { "/etc/apache2/sites-available/${name}":
+                content =>  template('vb_apache2/cgi.vhost.erb'),
+                owner => 'root',
+                group => 'root',       
+                require => Class["vb_apache2::install"],
+                notify => Service["apache2"],
+            }
+            
+            # vhost site initial index file and favicon
+    
+            file { "/var/www/${name}/public/index.html":
+                source => "puppet:///modules/vb_apache2/newvhost.index.html",    
+                owner => 'root',
+                group => 'root',
+                require => File["/var/www/${name}"],
+            }
+    
+            file { "/var/www/${name}/public/favicon.ico":
+                source => "puppet:///modules/vb_apache2/tux-favicon.ico",    
+                owner => 'root',
+                group => 'root',
+                require => File["/var/www/${name}"],
+            }                
+            
+                
+        }
+        
+        default: {
+            fail("FAIL: Script language ($scriptlanguage) not defined or known!")
+        }
+    
+    }
+    
+    #
+    ## THIS SECTION SETUP A DEFAULT PHP DIRECTORY STRUCTURE AND FILE OWNERSHIPS FOR THIS VHOST
+    #
+    
+    
+    if $scriptlanguage == 'php' {
+    
+        # IMAGES directory (e.g. for PHP) for images
+        
+        file { "/var/www/${name}/public/images" :
+             ensure => "directory",
+             owner => 'root',
+             group => $devgroupid,
+             mode => '0775',
+            require => File["/var/www/${name}/public"],
+        }
+        
+        # STYLES directory (e.g. for PHP) for stylesheets
+        
+        file { "/var/www/${name}/public/styles" :
+             ensure => "directory",
+             owner => 'root',
+             group => $devgroupid,
+             mode => '0775',
+            require => File["/var/www/${name}/public"],
+        }   
+        
+        
+        # Include files (e.g. for PHP) for developer group goes one directory level up   
+    
+        file { "/var/www/${name}/includes" :
+             ensure => "directory",
+             owner => 'root',
+             group => $devgroupid,
+             mode => '0775',
+            require => File["/var/www/${name}"],
+        }
+        
+    
+        
+        # STATIC data (e.g. for PHP) for application process (read), writable by developer group 
+        
+        file { "/var/www/${name}/static" :
+             ensure => "directory",
+             owner => 'root',
+             group => $devgroupid,
+             mode => '0775',
+            require => File["/var/www/${name}"],
+        }
+    
+        # Application DATA (read-writable by the eg. a PHP application i.e. www-data)
+        
+        file { "/var/www/${name}/data" :
+             ensure => "directory",
+             owner => 'www-data',
+             group => 'root',
+            require => File["/var/www/${name}"],
+        }
+    
+    }
+    
+    
+    ## Finally, enable the vhost site
+    
+    file { "/etc/apache2/sites-enabled/${priority}-${name}":
+        ensure => 'link',
+        target => "/etc/apache2/sites-available/${name}",
+       require => File["/etc/apache2/sites-available/${name}"],
+    }
+    
 
-    file { "/var/www/${name}/includes" :
-		 ensure => "directory",
-		 owner => 'root',
-		 group => $devgroupid,
-         mode => '0775',
-		require => File["/var/www/${name}"],
-	}
     
-
     
-    # STATIC data (e.g. for PHP) for application process (read), writable by developer group 
-    
-    file { "/var/www/${name}/static" :
-		 ensure => "directory",
-		 owner => 'root',
-		 group => $devgroupid,
-         mode => '0775',
-		require => File["/var/www/${name}"],
-	}
-
-    # Application DATA (read-writable by the eg. a PHP application i.e. www-data)
-    
-    file { "/var/www/${name}/data" :
-		 ensure => "directory",
-		 owner => 'www-data',
-		 group => 'root',
-		require => File["/var/www/${name}"],
-	}
     
 }

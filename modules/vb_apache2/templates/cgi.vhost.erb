@@ -1,0 +1,49 @@
+##############################################################
+# Managed by Puppet. Do not edit. Changes will be wiped out. #
+##############################################################
+<VirtualHost *:80>
+	
+	ServerAdmin root@localhost
+    DocumentRoot /var/www/<%= name %>/public/cgi-bin
+	
+	ServerName <%= name %>
+	
+	<% if urlalias != '' -%><%= "Alias /#{urlalias}/    #{aliastgtpath}/" -%><% end %>
+	
+	# Always block file system root access in /var/www/<%= name %> and higher
+	
+	<Directory /var/www/<%= name %>>
+		AllowOverride None
+		Options None
+		Order Deny,allow
+		Deny from all
+	</Directory>
+	
+	
+	# Only access at public level cgi-bin 
+	
+	<Directory /var/www/<%= name %>/public/cgi-bin>
+	
+		Options +ExecCGI
+		AddHandler cgi-script .cgi
+		AllowOverride None
+		Allow from all
+		Order Allow,deny
+
+	</Directory>
+	
+	# set the preference to use index.cgi, and if cgi is not working use the index-html
+	
+    <Directory /var/www/<%= name %>/public/cgi-bin>
+		DirectoryIndex disabled
+		DirectoryIndex index.cgi
+		DirectoryIndex index.html				
+    </Directory>
+
+	ErrorLog ${APACHE_LOG_DIR}/error.log
+
+	LogLevel warn
+
+	CustomLog ${APACHE_LOG_DIR}/access.log combined
+	
+</VirtualHost>
