@@ -1,0 +1,10 @@
+##############################################################
+# Managed by Puppet. Do not edit. Changes will be wiped out. #
+##############################################################
+
+deb http://ftp.se.debian.org/debian/ testing main
+deb-src http://ftp.se.debian.org/debian/ testing main
+
+deb http://security.debian.org/ testing/updates main
+deb-src http://security.debian.org/ testing/updates main
+

@@ -171,6 +171,9 @@ node 'node-cobol.vbox.tld' inherits basenode {
     # Fix LXDE configuration file (bug)
     class { vb_lxde_fixconfig : homeuser => 'bekr' }
 
+    # need some some packages from testing for open-cobol-ide
+    vb_add_aptrelease::config{ 'testing' : }
+
 }
 
 
