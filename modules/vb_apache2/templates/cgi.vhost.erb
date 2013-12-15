@@ -32,12 +32,11 @@
 		AddHandler cgi-script .cgi
 	</Directory>
 	
-	# set the preference to use index.cgi, and if cgi is not working use the index-html
+	# set the preference to use index.cgi
 	
     <Directory /var/www/<%= name %>/public/cgi-bin>
 		DirectoryIndex disabled
-		DirectoryIndex index.cgi
-		DirectoryIndex index.html				
+		DirectoryIndex index.cgi			
     </Directory>
 
 	ErrorLog ${APACHE_LOG_DIR}/error.log

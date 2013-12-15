@@ -13,5 +13,8 @@ node basenode {
     # Set up every VM with openssh server
     include vb_ssh_server
     
+    # Configure APT
+    include vb_aptconf
+    
 
 }
