@@ -13,22 +13,22 @@ class vb_opencobolide_ppa::install {
     package { 'open-cobol' :
         ensure => installed,
     }
+        
     
-    # add the key for the launchpad PPA
-	exec { "/usr/bin/apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 5AF261D4" :
-              alias => 'install-ppa-key-5AF261D4',
-		refreshonly => true,
-	}	    
-    
-    # add the PPA repository to APT (add ppa key 5AF261D4)
+    # add the PPA repository to APT
     
 	file { "/etc/apt/sources.list.d/opencobolide.list":
 		 source => "puppet:///modules/vb_opencobolide_ppa/opencobolide.ppa.list",
 		  owner => "root",
 		  group => "root",
 		   mode => '0644',
-        require => Exec["install-ppa-key-5AF261D4"],
-	}    
+	}
+    
+    # add the key (5AF261D4) for the launchpad PPA
+	exec { "/usr/bin/apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 5AF261D4" :
+          subscribe => '/etc/apt/sources.list.d/opencobolide.list', 
+		refreshonly => true,
+	}	    
     
     # Update APT cache, but only when 'opencobolide.list' file changes
 
