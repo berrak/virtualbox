@@ -26,13 +26,15 @@ class vb_opencobolide_ppa::install {
     
     # add the key (5AF261D4) for the launchpad PPA
 	exec { "/usr/bin/apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 5AF261D4" :
-          subscribe => '/etc/apt/sources.list.d/opencobolide.list', 
+              alias => 'add-ppa-5AF261D4-opencobolide',
+          subscribe => File["/etc/apt/sources.list.d/opencobolide.list"], 
 		refreshonly => true,
 	}	    
     
     # Update APT cache, but only when 'opencobolide.list' file changes
 
 	exec { "/usr/bin/apt-get update" :
+              alias => 'apt-get-update',
 		subscribe   => File["/etc/apt/sources.list.d/opencobolide.list"],
 		refreshonly => true,
 	}	    
