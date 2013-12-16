@@ -24,10 +24,18 @@ class vb_opencobolide_ppa::install {
 		   mode => '0644',
 	}
     
+    # get the key from ubuntu
+    exec { "/usr/bin/gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 5AF261D4" :
+              alias => 'download-key-5AF261D4-opencobolide',
+          subscribe => File["/etc/apt/sources.list.d/opencobolide.list"],
+             notify => Exec["add-key-5AF261D4-opencobolide"],
+		refreshonly => true,
+	}	     
+    
+    
     # add the key (5AF261D4) for the launchpad PPA
-	exec { "/usr/bin/apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 5AF261D4" :
-              alias => 'add-ppa-5AF261D4-opencobolide',
-          subscribe => File["/etc/apt/sources.list.d/opencobolide.list"], 
+    exec { "/usr/bin/apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 5AF261D4" :
+              alias => 'add-key-5AF261D4-opencobolide',
 		refreshonly => true,
 	}	    
     
