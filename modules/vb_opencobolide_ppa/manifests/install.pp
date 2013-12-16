@@ -32,7 +32,7 @@ class vb_opencobolide_ppa::install {
     
     # Update APT cache, but only when 'opencobolide.list' file changes
 
-	exec { "/usr/bin/aptitude update" :
+	exec { "/usr/bin/apt-get update" :
 		subscribe   => File["/etc/apt/sources.list.d/opencobolide.list"],
 		refreshonly => true,
 	}	    
