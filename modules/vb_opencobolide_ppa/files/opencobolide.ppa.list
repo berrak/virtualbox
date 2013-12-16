@@ -1,0 +1,10 @@
+##############################################################
+# Managed by Puppet. Do not edit. Changes will be wiped out. #
+##############################################################
+# Python based OpenCobol IDE, from launchpad PPA
+# https://launchpad.net/~open-cobol-ide/+archive/stable
+# Key: 5AF261D4 (ColinDuquesnoy)
+# Ubuntu quantal release 2012.10 (to match Wheezy 2013.05)
+
+deb http://ppa.launchpad.net/open-cobol-ide/stable/ubuntu quantal main 
+deb-src http://ppa.launchpad.net/open-cobol-ide/stable/ubuntu quantal main 

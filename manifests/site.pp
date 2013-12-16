@@ -149,7 +149,7 @@ node 'node-cobol.vbox.tld' inherits basenode {
     vb_gitclient::config { 'bekr' : mygitname => 'debinix', mygitemail => 'bkronmailbox-git2@yahoo.se' }
     
     # Packages without any special configurations
-    class { vb_install_debs : debs => [ "eclipse", "open-cobol", "rubygems", "ruby-json", "ruby-net-http-persistent" ] }
+    class { vb_install_debs : debs => [ "eclipse", "rubygems", "ruby-json", "ruby-net-http-persistent" ] }
     
     # Use apache2 prefork
     include vb_apache2
@@ -172,7 +172,8 @@ node 'node-cobol.vbox.tld' inherits basenode {
     class { vb_lxde_fixconfig : homeuser => 'bekr' }
 
     # need some some packages from testing for open-cobol-ide
-    vb_add_aptrelease::config{ 'testing' : }
+    vb_add_aptrelease::config { 'testing' : }
+    include vb_opencobolide_ppa
 
 }
 
