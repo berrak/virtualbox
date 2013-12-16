@@ -24,18 +24,18 @@ class vb_opencobolide_ppa::install {
 		   mode => '0644',
 	}
     
-    # get apt the key from ubuntu key server
-    exec { "/usr/bin/gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 5AF261D4" :
+    # get apt and add the key from ubuntu key server
+    exec { "/usr/bin/apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 5AF261D4" :
               alias => 'add-apt-key-5AF261D4-opencobolide',
           subscribe => File["/etc/apt/sources.list.d/opencobolide.list"],
 		refreshonly => true,
+        notify => Exec["/usr/bin/apt-get update"],
 	}	     
   
     # Update APT cache, but only when 'opencobolide.list' file changes
 
 	exec { "/usr/bin/apt-get update" :
               alias => 'apt-get-update',
-		subscribe   => File["/etc/apt/sources.list.d/opencobolide.list"],
 		refreshonly => true,
 	}	    
 
