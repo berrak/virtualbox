@@ -23,7 +23,7 @@ class vb_opencobolide_ppa::install {
     # add the PPA repository to APT (add ppa key 5AF261D4)
     
 	file { "/etc/apt/sources.list.d/opencobolide.list":
-		 source => "puppet:///modules/vb_add_aptrelease/opencobolide.ppa.list",
+		 source => "puppet:///modules/vb_opencobolide_ppa/opencobolide.ppa.list",
 		  owner => "root",
 		  group => "root",
 		   mode => '0644',
