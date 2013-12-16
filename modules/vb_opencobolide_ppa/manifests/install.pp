@@ -45,9 +45,11 @@ class vb_opencobolide_ppa::install {
     package { 'python-qt4' :        ensure => installed }
 
     
-    # need version 1.6 python-pygments (testing) for cobol syntax checks
+    # need version 1.6 python-pygments (from testing) for cobol syntax checks
+    # Note: 'apt-get install -t testing python-pygment' will not install
+    # to latest revision, BUT 'apt-get install python-pygment/testing' does!
    
-	exec { "/usr/bin/apt-get -t testing install python-pygments" :
+	exec { "/usr/bin/apt-get install python-pygments/testing" :
 		refreshonly => true,
 	}	    
     
