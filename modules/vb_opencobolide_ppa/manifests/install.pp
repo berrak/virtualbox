@@ -47,8 +47,7 @@ class vb_opencobolide_ppa::install {
     
     # need version 1.6 python-pygments (testing) for cobol syntax checks
    
-	exec { "/usr/bin/aptitude -t testing python-pygments" :
-              alias => 'install-testing-pygments',
+	exec { "/usr/bin/apt-get -t testing install python-pygments" :
 		refreshonly => true,
 	}	    
     
@@ -56,7 +55,7 @@ class vb_opencobolide_ppa::install {
     
     package { 'python-pyqode.core' :
          ensure => installed,
-        require => [ Package["python-setuptools"], Package["python-chardet"], Package["python-qt4"], Exec["install-testing-pygments"] ],
+        require => [ Package["python-setuptools"], Package["python-chardet"], Package["python-qt4"], Exec["/usr/bin/apt-get -t testing install python-pygments"] ],
     }
     
     package { 'python-pyqode.widgets' :
