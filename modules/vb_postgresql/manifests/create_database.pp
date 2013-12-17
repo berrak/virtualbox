@@ -16,8 +16,7 @@ define vb_postgresql::create_database ( $owner='' ) {
 	# add new postgres database and owner
 	
 	exec { "create_postgres_database_and_owner":
-		command => "/usr/bin/createdb -O $owner $name && /bin/sh exit",
-		 onlyif => "/bin/su - postgres",
+		command => "/bin/su - postgres && /usr/bin/createdb -O $owner $name && /bin/sh exit",
 		require => Class["vb_postgresql"],
 	}	
 	

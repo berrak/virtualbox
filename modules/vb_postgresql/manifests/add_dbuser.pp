@@ -12,10 +12,17 @@ define vb_postgresql::add_dbuser {
 	# add one database user
 	
 	exec { "create_postgres_user":
-		command => "/usr/bin/createuser $name --createdb --no-superuser --no-password --no-createrole && /bin/sh exit",
-		 onlyif => "/bin/su - postgres",
+		command => "/bin/su - postgres && /usr/bin/createuser $name --createdb --no-superuser --no-password --no-createrole && /bin/sh exit",
 		require => Class["vb_postgresql"],
+		notify => "set_restrictive_mode_on_user_postgresql_password_file",
 	}	
+	
+	# although the user password may not be in use, it should always have mode '0600'
+	
+    exec { "set_restrictive_mode_on_user_postgresql_password_file":
+         command => "/bin/chmod 0600 /home/$name/.pgpass",    
+    }
+	
 	
     
 }
