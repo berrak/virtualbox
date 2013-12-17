@@ -174,6 +174,12 @@ node 'node-cobol.vbox.tld' inherits basenode {
     # need some some packages from testing for open-cobol-ide
     vb_add_aptrelease::config { 'testing' : }
     include vb_opencobolide_ppa
+    
+    # PostgreSQL-9.1
+    include vb_postgresql
+    vb_postgresql::add_dbuser { 'bekr' : }
+    vb_postgresql::create_database { 'jensen' : owner => 'bekr' }
+    
 
 }
 
