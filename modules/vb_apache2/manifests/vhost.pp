@@ -85,6 +85,12 @@ define vb_apache2::vhost ( $priority='', $devgroupid='', $urlalias='', $aliastgt
                 command => "/usr/sbin/a2enmod suexec",
             }
             
+            # When we use cgi/jensen we must disable 'default' vhost, beacuse
+            # apache looks for a matching URL in 'default' before 'jensen!'
+            
+            exec { "disable_site_default":
+                 command => "/usr/sbin/a2dissite default"
+            }
                 
             
             file { "/etc/apache2/sites-available/${name}":
