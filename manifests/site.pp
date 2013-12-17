@@ -177,8 +177,10 @@ node 'node-cobol.vbox.tld' inherits basenode {
     
     # PostgreSQL-9.1
     include vb_postgresql
-    vb_postgresql::add_dbuser { 'bekr' : }
-    vb_postgresql::create_database { 'jensen' : owner => 'bekr' }
+    
+    # following does not run at all by Puippet, but is Ok at cmd-line! 
+    # vb_postgresql::add_dbuser { 'bekr' : }
+    # vb_postgresql::create_database { 'jensen' : owner => 'bekr' }
     
 
 }
