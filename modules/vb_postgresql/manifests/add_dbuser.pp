@@ -13,7 +13,7 @@ define vb_postgresql::add_dbuser {
 	
 	exec { "create_postgres_user":
 		command => "/usr/bin/createuser $name --createdb --no-superuser --no-password --no-createrole && /bin/sh exit",
-		 onlyif => "su - postgres",
+		 onlyif => "/bin/su - postgres",
 		require => Class["vb_postgresql"],
 	}	
 	
