@@ -57,7 +57,7 @@ class vb_opencobolide_ppa::install {
     
     package { 'python-pyqode.core' :
          ensure => installed,
-        require => [ Package["python-setuptools"], Package["python-chardet"], Package["python-qt4"], Exec["/usr/bin/apt-get -t testing install python-pygments"] ],
+        require => [ Package["python-setuptools"], Package["python-chardet"], Package["python-qt4"], Exec["/usr/bin/apt-get install python-pygments/testing"] ],
     }
     
     package { 'python-pyqode.widgets' :
