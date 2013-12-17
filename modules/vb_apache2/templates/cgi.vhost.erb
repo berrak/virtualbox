@@ -10,6 +10,9 @@
 	
 	<% if urlalias != '' -%><%= "Alias /#{urlalias}/    #{aliastgtpath}/" -%><% end %>
 	
+		# Execute all scripts as user $devgroupid
+	SuexecUserGroup <% devgroupid %> <% devgroupid %>
+	
 	# Always block file system root access in /var/www/<%= name %> and higher
 	
 	<Directory /var/www/<%= name %>>

@@ -74,6 +74,17 @@ define vb_apache2::vhost ( $priority='', $devgroupid='', $urlalias='', $aliastgt
     case $scriptlanguage {
     
         'cgi': {
+        
+            # enable suEXEC
+                        
+            if $devgroupid == '' {
+                fail("FAIL: When using CGI, a suexec user must be specified in the devgroupid!")
+            }
+            
+            exec { "enable_apache2_suexec_module":
+                command => "/usr/sbin/a2enmod suexec",
+            }
+                
             
             file { "/etc/apache2/sites-available/${name}":
                 content =>  template('vb_apache2/cgi.vhost.erb'),
