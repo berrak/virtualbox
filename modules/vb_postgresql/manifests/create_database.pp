@@ -1,10 +1,10 @@
 #
 # Manage PostgreSQL-9.1
 #
-# Sample usage: vb_postgresql::create_database { 'jensen' : owner => 'bekr' }
+# Sample usage: vb_postgresql::create_database { 'jensen' : $owner => 'bekr' }
 #
 #
-define vb_postgresql::create_database { $owner=''
+define vb_postgresql::create_database ( $owner='' ) {
 
 
     include vb_postgresql
