@@ -84,6 +84,7 @@ define vb_apache2::vhost ( $priority='', $devgroupid='', $urlalias='', $aliastgt
             exec { "enable_apache2_suexec_module":
                 command => "/usr/sbin/a2enmod suexec",
             }
+            
                 
             
             file { "/etc/apache2/sites-available/${name}":
