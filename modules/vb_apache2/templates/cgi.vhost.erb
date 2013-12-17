@@ -4,15 +4,12 @@
 <VirtualHost *:80>
 	
 	ServerAdmin root@localhost
-    DocumentRoot /var/www/<%= name %>/public/cgi-bin
+    DocumentRoot /var/www/<%= name %>/public
 	
 	ServerName <%= name %>
 	
 	<% if urlalias != '' -%><%= "Alias /#{urlalias}/    #{aliastgtpath}/" -%><% end %>
-	
-    # Execute all scripts as user $devgroupid
-	SuexecUserGroup <%= devgroupid %> <%= devgroupid %>
-	
+		
 	# Always block file system root access in /var/www/<%= name %> and higher
 	
 	<Directory /var/www/<%= name %>>
@@ -30,16 +27,19 @@
 		Order Allow,deny
 	</Directory>	
 	
+    # Execute all scripts as user $devgroupid - DOES NOT YET WORK CORRECT
+	# SuexecUserGroup <%= devgroupid %> <%= devgroupid %>	
+	
 	<Directory /var/www/<%= name %>/public/cgi-bin>
 		Options +ExecCGI
 		AddHandler cgi-script .cgi
 	</Directory>
 	
-	# set the preference to use index.cgi
+	# set the preference to use index.html
 	
-    <Directory /var/www/<%= name %>/public/cgi-bin>
+    <Directory /var/www/<%= name %>/public>
 		DirectoryIndex disabled
-		DirectoryIndex index.cgi			
+		DirectoryIndex index.html			
     </Directory>
 
 	ErrorLog ${APACHE_LOG_DIR}/error.log
