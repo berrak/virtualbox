@@ -184,7 +184,7 @@ define vb_apache2::vhost ( $priority='', $devgroupid='', $urlalias='', $aliastgt
                 owner => $devgroupid,
                 group => $devgroupid,
                 mode => '0755',
-                require => File["/var/www/${name}/public_html/cgi-bin"],
+                require => File["/home/${devgroupid}/${name}/public_html/cgi-bin"],
             }   
     
             file { "/home/${devgroupid}/${name}/public_html/favicon.ico":
