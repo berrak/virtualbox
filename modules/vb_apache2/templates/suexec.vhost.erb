@@ -4,7 +4,7 @@
 <VirtualHost *:80>
 	
 	ServerAdmin root@localhost
-    DocumentRoot /home/<%= devgroupid %>/<%= name %>/public_html
+    DocumentRoot /home/<%= devgroupid %>/<%= name %>/public_html/cgi-bin
 	
 	ServerName <%= name %>
 	
@@ -34,20 +34,6 @@
 		Options +ExecCGI
 		AddHandler cgi-script .cgi
 	</Directory>
-	
-	# set the preference to use index.html in public_html
-	
-    <Directory /home/<%= devgroupid %>/<%= name %>/public_html>
-		DirectoryIndex disabled
-		DirectoryIndex index.html			
-    </Directory>
-	
-	# set the preference to use index.cgi in public_html/cgi-bin
-	
-    <Directory /home/<%= devgroupid %>/<%= name %>/public_html/cgi-bin>
-		DirectoryIndex disabled
-		DirectoryIndex index.cgi			
-    </Directory>	
 	
 
 	ErrorLog ${APACHE_LOG_DIR}/error.log
