@@ -167,8 +167,6 @@ node 'node-cobol.vbox.tld' inherits basenode {
             priority => '001',
           devgroupid => 'jensen',
           execscript => 'suexec',
-            urlalias => 'cgi-bin'
-         liastgtpath => 'home/jensen/jensen.vbox.tld/public_html/cgi-bin'
     }    
     
     # Manage /etc/hosts file. List ALL Apache VIRTUAL HOSTS here, declare always default www.vbox.tld.

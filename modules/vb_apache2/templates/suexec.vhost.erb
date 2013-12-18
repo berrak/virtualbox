@@ -9,20 +9,10 @@
 	ServerName <%= name %>
 	
 	<% if urlalias != '' -%><%= "Alias /#{urlalias}/    #{aliastgtpath}/" -%><% end %>
-		
-	# Always block file system root access in /home/<suexec-uid>/<%= name %> and higher
+			
+	# Alow general access at site-name and below
 	
 	<Directory /home/<%= devgroupid %>/<%= name %>>
-		AllowOverride None
-		Options None
-		Order Deny,allow
-		Deny from all
-	</Directory>
-	
-	
-	# Alow general access at public level and below
-	
-	<Directory /home/<%= devgroupid %>/<%= name %>/public_html>
 		Allow from all
 		Order Allow,deny
 	</Directory>	
@@ -34,7 +24,6 @@
 		Options +ExecCGI
 		AddHandler cgi-script .cgi
 	</Directory>
-	
 
 	ErrorLog ${APACHE_LOG_DIR}/error.log
 
