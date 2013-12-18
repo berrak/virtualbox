@@ -175,9 +175,10 @@ node 'node-cobol.vbox.tld' inherits basenode {
     
     # Replace 'bekr' with your existing username
     vb_user_bashrc::config { 'bekr' : }
+    vb_user_bashrc::config { 'jensen' : }
     
     # Fix LXDE configuration file (bug)
-    class { vb_lxde_fixconfig : homeuser => 'bekr' }
+    class { vb_lxde_fixconfig : homeuser => 'bekr' }  
 
     # need some some packages from testing for open-cobol-ide
     vb_add_aptrelease::config { 'testing' : }
