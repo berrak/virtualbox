@@ -10,7 +10,7 @@ define vb_user_bashrc::config {
 
     # array of real users...(not root, or system accounts)
 		
-    if ( $name in ["bekr"] ) {
+    if ( $name in ["bekr", "jensen" ] ) {
 		
 		# create a couple of standard sub directories for the user
 		
