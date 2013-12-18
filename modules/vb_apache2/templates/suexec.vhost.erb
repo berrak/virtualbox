@@ -10,9 +10,18 @@
 	
 	<% if urlalias != '' -%><%= "Alias /#{urlalias}/    #{aliastgtpath}/" -%><% end %>
 			
+	# Always block file system access in /home/<%= devgroupid %>/<%= name %> and higher
+	
+	<Directory /home/<%= devgroupid %>/<%= name %>>
+		AllowOverride None
+		Options None
+		Order Deny,allow
+		Deny from all
+	</Directory>	
+	
 	# Alow general access at site-name and below
 	
-	<Directory /home/<%= devgroupid %>/<%= name %>/public_html>>
+	<Directory /home/<%= devgroupid %>/<%= name %>/public_html>
 		Allow from all
 		Order Allow,deny
 	</Directory>	
