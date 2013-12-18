@@ -12,7 +12,7 @@
 		
 	# Always block file system root access in /home/<suexec-uid>/<%= name %> and higher
 	
-	<Directory /home/<%= devgroupid %>/<%= name %>
+	<Directory /home/<%= devgroupid %>/<%= name %>>
 		AllowOverride None
 		Options None
 		Order Deny,allow
