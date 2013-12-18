@@ -177,7 +177,7 @@ define vb_apache2::vhost ( $priority='', $devgroupid='', $urlalias='', $aliastgt
                 notify => Service["apache2"],
             }
             
-            # vhost site index.cgi file and favicon
+            # vhost site sh.index.cgi (test) file and favicon
     
             file { "/home/${devgroupid}/${name}/public_html/cgi-bin/sh.index.cgi":
                 source => "puppet:///modules/vb_apache2/newvhost.index.cgi",    
@@ -187,7 +187,7 @@ define vb_apache2::vhost ( $priority='', $devgroupid='', $urlalias='', $aliastgt
                 require => File["/home/${devgroupid}/${name}/public_html/cgi-bin"],
             }   
     
-            file { "/home/${devgroupid}/${name}/public_html/cgi-bin/favicon.ico":
+            file { "/home/${devgroupid}/${name}/public_html/favicon.ico":
                  source => "puppet:///modules/vb_apache2/tux-favicon.ico",    
                   owner => $devgroupid,
                   group => $devgroupid,
