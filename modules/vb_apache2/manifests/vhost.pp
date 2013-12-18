@@ -178,9 +178,8 @@ define vb_apache2::vhost ( $priority='', $devgroupid='', $urlalias='', $aliastgt
             }
             
             # vhost site index.cgi file and favicon
-            
     
-            file { "/home/${devgroupid}/${name}/public_html/cgi-bin/index.cgi":
+            file { "/home/${devgroupid}/${name}/public_html/cgi-bin/sh.index.cgi":
                 source => "puppet:///modules/vb_apache2/newvhost.index.cgi",    
                 owner => $devgroupid,
                 group => $devgroupid,
