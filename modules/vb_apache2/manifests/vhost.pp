@@ -6,9 +6,10 @@
 #     vb_apache2::vhost { 'hudson.vbox.tld' :
 #        priority => '001',
 #        devgroupid => 'bekr',
+#        execscript = 'php',
 #     } 
 #
-define vb_apache2::vhost ( $priority='', $devgroupid='', $urlalias='', $aliastgtpath='', $scriptlanguage='') {
+define vb_apache2::vhost ( $priority='', $devgroupid='', $urlalias='', $aliastgtpath='', $execscript='') {
 
     
     # Add a new virtual host fqdn to /etc/hosts for name resolution. This
@@ -17,15 +18,15 @@ define vb_apache2::vhost ( $priority='', $devgroupid='', $urlalias='', $aliastgt
     include vb_apache2
     
     if $devgroupid == '' {
-        fail("FAIL: Missing group name for developer work under /var/www-directory tree ($devgroupid).")
+        fail("FAIL: Missing group name for developer work under /var/www-directory tree ($devgroupid) or the /home/userid of the suexec user.")
     }
 
     if $priority == '' {
         fail("FAIL: Missing required parameter priority ($priority).")
     }
     
-    if $scriptlanguage == '' {
-        fail("FAIL: Missing required scriptlanguage parameter ($scriptlanguage).")
+    if $execscript == '' {
+        fail("FAIL: Missing required execscript parameter ($execscript).")
     }    
     
     
@@ -48,44 +49,68 @@ define vb_apache2::vhost ( $priority='', $devgroupid='', $urlalias='', $aliastgt
     }
     
     
-	## Create the COMMON directory for this vhost site
+	## Create the COMMON directories for this vhost site
     
-	file { "/var/www/${name}":
-		ensure => "directory",
-		owner => 'root',
-		group => 'root',
-         mode => '0775',        
-	}
-    
-    # public directory is writable by developer group to be able to update files
 	
-    file { "/var/www/${name}/public" :
-		 ensure => "directory",
-		 owner => 'root',
-		 group => $devgroupid,
-         mode => '0775',
-		require => File["/var/www/${name}"],
-	}    
+    if $execscript != 'suexec' {
+    
+        file { "/var/www/${name}":
+            ensure => "directory",
+            owner => 'root',
+            group => 'root',
+             mode => '0775',        
+        }
+        
+        # public directory is writable by developer group to be able to update files
+        
+        file { "/var/www/${name}/public" :
+             ensure => "directory",
+             owner => 'root',
+             group => $devgroupid,
+             mode => '0775',
+            require => File["/var/www/${name}"],
+        }
+        
+    } else {
+    
+        # this (suexec)user must exist on the host system - not created by Puppet!
+    
+        file { "/home/${devgroupid}/${name}":
+            ensure => "directory",
+            owner => $devgroupid,
+            group => $devgroupid,
+             mode => '0775',        
+        }
+        
+        # docroot for the suexec execution
+        
+        file { "/home/${devgroupid}/${name}/public_html" :
+             ensure => "directory",
+              owner => $devgroupid,
+              group => $devgroupid,
+               mode => '0775',
+            require => File["/home/${devgroupid}/${name}"],
+        }
+
+        # script directory /cgi-bin for suexec execution
+
+        file { "/home/${devgroupid}/${name}/public_html/cgi-bin" :
+             ensure => "directory",
+              owner => $devgroupid,
+              group => $devgroupid,
+               mode => '0775',
+            require => File["/home/${devgroupid}/${name}/public_html"],
+        }        
+    
+    }
     
     
     ## Special vhost-configuration depending on (script)languages used
     
-    
-    case $scriptlanguage {
+    case $execscript {
     
         'cgi': {
-        
-            # enable suEXEC
-                        
-            if $devgroupid == '' {
-                fail("FAIL: When using CGI, a suexec user must be specified in the devgroupid!")
-            }
-            
-            exec { "enable_apache2_suexec_module":
-                command => "/usr/sbin/a2enmod suexec",
-            }
                 
-            
             file { "/etc/apache2/sites-available/${name}":
                 content =>  template('vb_apache2/cgi.vhost.erb'),
                 owner => 'root',
@@ -117,12 +142,61 @@ define vb_apache2::vhost ( $priority='', $devgroupid='', $urlalias='', $aliastgt
     
             file { "/var/www/${name}/public/cgi-bin/favicon.ico":
                 source => "puppet:///modules/vb_apache2/tux-favicon.ico",    
-                owner => 'root',
-                group => 'root',
+                 owner => 'root',
+                 group => 'root',
+                  mode => '0644',
                 require => File["/var/www/${name}/public/cgi-bin"],
             }                       
             
         }
+        
+        'suexec': {
+        
+            # enable suEXEC apache module
+            
+            # need to install debian configurable suexec
+            package { "apache2-suexec-custom" : ensure => installed }
+            
+            exec { "enable_apache2_suexec_module":
+                command => "/usr/sbin/a2enmod suexec",
+                require => Package["apache2-suexec-custom"],
+            }
+            
+            file { '/etc/apache2/suexec/www-data':
+                content =>  template('vb_apache2/suexec.custom.www-data.erb'),
+                  owner => 'root',
+                  group => 'root',       
+                require => Package["apache2-suexec-custom"],
+            }            
+            
+            file { "/etc/apache2/sites-available/${name}":
+                content =>  template('vb_apache2/suexec.vhost.erb'),
+                owner => 'root',
+                group => 'root',       
+                require => Class["vb_apache2::install"],
+                notify => Service["apache2"],
+            }
+            
+            # vhost site index.cgi file and favicon
+    
+            file { "/home/${devgroupid}/${name}/public_html/cgi-bin/index.cgi":
+                source => "puppet:///modules/vb_apache2/newvhost.index.cgi",    
+                owner => $devgroupid,
+                group => $devgroupid,
+                mode => '0755',
+                require => File["/var/www/${name}/public_html/cgi-bin"],
+            }   
+    
+            file { "/home/${devgroupid}/${name}/public_html/favicon.ico":
+                 source => "puppet:///modules/vb_apache2/tux-favicon.ico",    
+                  owner => $devgroupid,
+                  group => $devgroupid,
+                   mode => '0644',
+                require => File["/home/${devgroupid}/${name}/public_html"],
+            }          
+        
+        }
+        
         
         'php': {
     
@@ -154,7 +228,7 @@ define vb_apache2::vhost ( $priority='', $devgroupid='', $urlalias='', $aliastgt
         }
         
         default: {
-            fail("FAIL: Script language ($scriptlanguage) not defined or known!")
+            fail("FAIL: Script language ($execscript) not defined or known!")
         }
     
     }

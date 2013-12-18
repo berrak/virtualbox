@@ -1,0 +1,59 @@
+##############################################################
+# Managed by Puppet. Do not edit. Changes will be wiped out. #
+##############################################################
+<VirtualHost *:80>
+	
+	ServerAdmin root@localhost
+    DocumentRoot /home/<%= devgroupid %>/<%= name %>/public_html
+	
+	ServerName <%= name %>
+	
+	<% if urlalias != '' -%><%= "Alias /#{urlalias}/    #{aliastgtpath}/" -%><% end %>
+		
+	# Always block file system root access in /home/<suexec-uid>/<%= name %> and higher
+	
+	<Directory /home/<%= devgroupid %>/<%= name %>
+		AllowOverride None
+		Options None
+		Order Deny,allow
+		Deny from all
+	</Directory>
+	
+	
+	# Alow general access at public level and below
+	
+	<Directory /home/<%= devgroupid %>/<%= name %>/public_html>
+		Allow from all
+		Order Allow,deny
+	</Directory>	
+	
+    # Execute all scripts as user $devgroupid
+	SuexecUserGroup <%= devgroupid %> <%= devgroupid %>	
+	
+	<Directory /home/<%= devgroupid %>/<%= name %>/public_html/cgi-bin>
+		Options +ExecCGI
+		AddHandler cgi-script .cgi
+	</Directory>
+	
+	# set the preference to use index.html in public_html
+	
+    <Directory /home/<%= devgroupid %>/<%= name %>/public_html>
+		DirectoryIndex disabled
+		DirectoryIndex index.html			
+    </Directory>
+	
+	# set the preference to use index.cgi in public_html/cgi-bin
+	
+    <Directory /home/<%= devgroupid %>/<%= name %>/public_html/cgi-bin>
+		DirectoryIndex disabled
+		DirectoryIndex index.cgi			
+    </Directory>	
+	
+
+	ErrorLog ${APACHE_LOG_DIR}/error.log
+
+	LogLevel warn
+
+	CustomLog ${APACHE_LOG_DIR}/access.log combined
+	
+</VirtualHost>

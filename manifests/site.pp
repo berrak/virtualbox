@@ -80,14 +80,15 @@ node 'node-php.vbox.tld' inherits basenode {
     # Define a new Apache2 virtual host (docroot directory writable by group 'bekr')
     vb_apache2::vhost { 'hudson.vbox.tld' :
             priority => '001',
-       devgroupid => 'bekr',
+          devgroupid => 'bekr',
+          execscript => 'php',          
     }
     
     # Define a new Apache2 virtual host (docroot directory writable by group 'bekr')
     vb_apache2::vhost { 'powers.vbox.tld' :
             priority => '002',
-       devgroupid => 'bekr',
-       scriptlanguage => 'php',
+          devgroupid => 'bekr',
+          execscript => 'php',
     }
     
     # Define content in /etc/hosts file. List ALL Apache VIRTUAL HOSTS here, declare always default www.vbox.tld.
@@ -155,14 +156,21 @@ node 'node-cobol.vbox.tld' inherits basenode {
     include vb_apache2
     
     # Define a new Apache2 virtual host (docroot directory writable by group 'bekr')
-    vb_apache2::vhost { 'jensen.vbox.tld' :
+    vb_apache2::vhost { 'cgi.vbox.tld' :
             priority => '001',
           devgroupid => 'bekr',
-       scriptlanguage => 'cgi',
+          execscript => 'cgi',
     }
     
+    # Define a new Apache2 virtual host (suexec to user jensen)    
+    vb_apache2::vhost { 'jensen.vbox.tld' :
+            priority => '001',
+          devgroupid => 'jensen',
+          execscript => 'suexec',
+    }    
+    
     # Manage /etc/hosts file. List ALL Apache VIRTUAL HOSTS here, declare always default www.vbox.tld.
-    vb_hosts::config { 'bekr' : apache_virtual_host => [ "www.vbox.tld", "jensen.vbox.tld"  ] }      
+    vb_hosts::config { 'bekr' : apache_virtual_host => [ "www.vbox.tld", "cgi.vbox.tld", "jensen.vbox.tld" ] }      
     
     
     # Replace 'bekr' with your existing username
@@ -173,13 +181,15 @@ node 'node-cobol.vbox.tld' inherits basenode {
 
     # need some some packages from testing for open-cobol-ide
     vb_add_aptrelease::config { 'testing' : }
+    # this will install from ubuntu PPA repo and from debian testing
     include vb_opencobolide_ppa
     
     # PostgreSQL-9.1
     include vb_postgresql
     
-    vb_postgresql::add_dbuser { 'bekr' : }
-    vb_postgresql::create_database { 'jensen' : owner => 'bekr' }
+    # Can't run these two as root - must be user postgres to connect
+    # vb_postgresql::add_dbuser { 'bekr' : }
+    # vb_postgresql::create_database { 'jensen' : owner => 'bekr' }
     
 
 }

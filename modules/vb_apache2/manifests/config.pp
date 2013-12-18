@@ -35,7 +35,7 @@ class vb_apache2::config {
 
     ## Enable the default vhost site, but dont put lowest priority
     
-    file { '/etc/apache2/sites-enabled/999-default':
+    file { '/etc/apache2/sites-enabled/000-default':
         ensure => 'link',
         target => '/etc/apache2/sites-available/default',
        require => Class["vb_apache2::install"],
