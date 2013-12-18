@@ -177,7 +177,7 @@ define vb_apache2::vhost ( $priority='', $devgroupid='', $urlalias='', $aliastgt
                 notify => Service["apache2"],
             }
             
-            # vhost site sh.index.cgi (test) file and favicon
+            # sh.index.cgi (test that user is wrapped by suExec) and favicon
     
             file { "/home/${devgroupid}/${name}/public_html/cgi-bin/sh.index.cgi":
                 source => "puppet:///modules/vb_apache2/newvhost.index.cgi",    
