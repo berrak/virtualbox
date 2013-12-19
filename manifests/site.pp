@@ -192,6 +192,10 @@ node 'node-cobol.vbox.tld' inherits basenode {
     # vb_postgresql::add_dbuser { 'bekr' : }
     # vb_postgresql::create_database { 'jensen' : owner => 'bekr' }
     
+    # partial install of required debian pacakges for OC-ESQL pre-compiler
+    include vb_ocesql
+    
+    
 
 }
 
