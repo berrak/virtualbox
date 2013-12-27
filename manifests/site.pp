@@ -50,7 +50,7 @@ node 'node-mojo.vbox.tld' inherits basenode {
     include vb_hosts
     
     # Packages without any special configurations
-    class { vb_install_debs : debs => [ "curl", "evince", "wdiff", "build-essential", "tree" ] }
+    class { vb_install_debs : debs => [ "curl", "evince", "wdiff", "build-essential", "tree", "locales-all" ] }
     
     # Replace 'bekr' with your existing username
     vb_user_bashrc::config { 'bekr' : }
@@ -64,7 +64,7 @@ node 'node-mojo.vbox.tld' inherits basenode {
 node 'node-php.vbox.tld' inherits basenode {
     
     # Packages without any special configurations
-    class { vb_install_debs : debs => [ "curl", "evince", "wdiff", "build-essential", "tree" ] }
+    class { vb_install_debs : debs => [ "curl", "evince", "wdiff", "build-essential", "tree", "locales-all" ] }
     
     # Replace 'bekr' with your existing username
     vb_user_bashrc::config { 'bekr' : }
@@ -104,7 +104,7 @@ node 'node-ruby.vbox.tld' inherits basenode {
     include vb_hosts
     
     # Packages without any special configurations
-    class { vb_install_debs : debs => [ "rubygems", "ruby-json", "ruby-net-http-persistent", "curl", "evince", "wdiff", "build-essential", "tree" ] }
+    class { vb_install_debs : debs => [ "rubygems", "ruby-json", "ruby-net-http-persistent", "curl", "evince", "wdiff", "build-essential", "tree", "locales-all" ] }
     
     # Replace 'bekr' with your existing username
     vb_user_bashrc::config { 'bekr' : }
@@ -125,7 +125,7 @@ node 'node-python.vbox.tld' inherits basenode {
     vb_gitclient::config { 'bekr' : mygitname => 'debinix', mygitemail => 'bkronmailbox-git2@yahoo.se' }
     
     # Packages without any special configurations
-    class { vb_install_debs : debs => [ "curl", "evince", "wdiff", "pyflakes", "python-sphinx", "sphinx-doc", "build-essential", "tree" ] }
+    class { vb_install_debs : debs => [ "curl", "evince", "wdiff", "pyflakes", "python-sphinx", "sphinx-doc", "build-essential", "tree", "locales-all" ] }
     
     # Replace 'bekr' with your existing username
     vb_user_bashrc::config { 'bekr' : }
@@ -150,7 +150,7 @@ node 'node-cobol.vbox.tld' inherits basenode {
     vb_gitclient::config { 'bekr' : mygitname => 'debinix', mygitemail => 'bkronmailbox-git2@yahoo.se' }
     
     # Packages without any special configurations
-    class { vb_install_debs : debs => [ "eclipse", "rubygems", "ruby-json", "ruby-net-http-persistent", "build-essential", "tree" ] }
+    class { vb_install_debs : debs => [ "eclipse", "rubygems", "ruby-json", "ruby-net-http-persistent", "build-essential", "tree", , "locales-all" ] }
     
     # Use apache2 prefork
     include vb_apache2
@@ -208,7 +208,7 @@ node 'node-java.vbox.tld' inherits basenode {
     include vb_hosts
     
     # Packages without any special configurations (installs eclipse 3.8)
-    class { vb_install_debs : debs => [ "eclipse", "build-essential", "tree" ] }
+    class { vb_install_debs : debs => [ "eclipse", "build-essential", "tree", , "locales-all" ] }
     
     # Replace 'bekr' with your existing username
     vb_user_bashrc::config { 'bekr' : }
@@ -227,7 +227,7 @@ node 'node-sid.vbox.tld' inherits basenode {
     include vb_hosts
     
     # Packages without any special configurations
-    class { vb_install_debs : debs => [ "patchutils", "quilt", "build-essential", "tree" ] }
+    class { vb_install_debs : debs => [ "patchutils", "quilt", "build-essential", "tree", , "locales-all" ] }
     
     # Replace 'bekr' with your existing username
     vb_user_bashrc::config { 'bekr' : }
